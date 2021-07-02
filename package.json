@@ -1,0 +1,22 @@
+{
+  "name": "nodistractions",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "webextension-polyfill": "^0.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JakobJakobJakob2/NoDistractions.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JakobJakobJakob2/NoDistractions/issues"
+  },
+  "homepage": "https://github.com/JakobJakobJakob2/NoDistractions#readme"
+}

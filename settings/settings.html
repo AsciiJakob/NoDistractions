@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+
+  <body>
+    <h1 id="settingstext">Settings</h1>
+    <div id="settingsContainer">
+      <label>Enable by default on browser startup <input class="setting" type="checkbox" id="enableOnStartup"/></label>
+      
+      <br><button id="resetSettings">Reset to defaults</button>
+    </div>
+    <div>
+      <h1>Import site-blacklist</h1>
+      <h3>Import from clipboard</h3>
+      <span style="display:none;" id="importAlertText"></span>
+      <textarea id="importClipboard"></textarea>
+      <br>
+      <button id="importClipboardButton">Import</button>
+    </div>
+    <div>
+      <h1>Export site-blacklist</h1>
+      <h3>Export to file</h3>
+      <button id="downloadBlacklist">Download blacklist</button>
+      <h3>Copy to clipboard</h3>
+      <textarea readonly id="exportClipboard"></textarea>
+      <br>
+      <button>Copy</button>
+    </div>
+
+    <script type="application/javascript" src="./../node_modules/webextension-polyfill/dist/browser-polyfill.min.js"></script>
+    <script src="settings.js"></script>
+  </body>
+</html>
+
+<style>
+  body {
+    margin: 10px;
+  }
+  .error {
+    color: red;
+  }
+  .success {
+    color: green;
+  }
+</style>

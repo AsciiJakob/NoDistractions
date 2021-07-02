@@ -1,0 +1,46 @@
+{
+
+  "description": "A bloat-free-simple-by-design-productivity-tool",
+  "manifest_version": 2,
+  "name": "NoDistractions",
+  "author": "Asciijakob",
+  "version": "1.0.0",
+  "homepage_url": "https://github.com/TBA",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "NoDistractions@asciijakob.org"
+    }
+  },
+  "icons": {
+    "48": "assets/icon.png"
+  },
+  "browser_action": {
+    "default_icon": "assets/icon.png",
+    "default_title": "No Distractions",
+    "default_popup": "/popup/popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "./node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
+        "noDistractions.js"
+      ]
+    }
+  ],
+  "permissions": [
+    "storage",
+    "tabs",
+    "<all_urls>"
+  ],
+  "background": {
+    "scripts": [
+      "./node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
+      "background.js"
+    ]
+  },
+  "options_ui": {
+    "page": "/settings/settings.html",
+    "browser_style": true
+  }
+}
