@@ -6,7 +6,7 @@ loadSettings();
 
 document.querySelector("#settingsContainer").addEventListener("click", mouseEvent => saveSetting(mouseEvent.target));
 document.querySelector("#resetSettings").addEventListener("click", resetSettings);
-document.querySelector("#downloadBlacklist").addEventListener("click", downloadBlacklist);
+document.querySelector("#downloadBlocklist").addEventListener("click", downloadBlocklist);
 document.querySelector("#importClipboardButton").addEventListener("click", importFromClipboard);
 
 async function loadSettings() {
@@ -33,6 +33,7 @@ async function saveSetting(element) {
 		console.log("setting new setting")
 		console.log("new settings are: ", newSettings)
 		browser.storage.local.set({settings: newSettings});
+		browser.runtime.sendMessage({type: "updatedBlocklist"});
 	}
 }
 
@@ -48,11 +49,11 @@ async function resetSettings() {
 	
 }
 
-async function downloadBlacklist() {
+async function downloadBlocklist() {
 	const storage = await browser.storage.local.get("blockedSites");
 	let downloadElement = document.createElement('a');
 	downloadElement.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage.blockedSites)));
-	downloadElement.setAttribute('download', "ND-SiteBlacklist");
+	downloadElement.setAttribute('download', "ND-SiteBlocklist");
   
 	downloadElement.style.display = 'none';
 	document.body.appendChild(downloadElement);

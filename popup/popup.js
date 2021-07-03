@@ -21,6 +21,7 @@ function saveSettings() {
         }
     }
     browser.storage.local.set({blockedSites: newBlockedSites});
+    browser.runtime.sendMessage({type: "updatedBlocklist"});
 }
 
 async function loadSettings() {

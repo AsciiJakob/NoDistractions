@@ -17,7 +17,17 @@ async function handleInstalled(details) {
     }
   });
 }
-
+loadBlocklist();
+async function loadBlocklist() {
+  loadedBlocklist = await browser.storage.local.get("blockedSites");
+  let blockUrls = [];
+  for (site of loadedBlocklist.blockedSites) {
+    // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/UrlFilter
+    blockUrls.push({hostContains: site});
+  }
+  browser.webNavigation.onBeforeNavigate.addListener(handleSite, {url: blockUrls});
+  console.log("passed: ", blockUrls);
+}
 
 async function handleMessage(request, sender, sendResponse) {
   return new Promise(async resolve => {
@@ -37,6 +47,10 @@ async function handleMessage(request, sender, sendResponse) {
         }
         resolve({response: isBlocked});
         break;
+      case "updatedBlocklist":
+        loadBlocklist();
+        resolve(true);
+        break;
       case "isEnabled":
         resolve({response: enabled});
         break;
@@ -48,12 +62,13 @@ async function handleMessage(request, sender, sendResponse) {
   })
 }
 
-// TODO: need to implement https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/webNavigation/onBeforeNavigate with a https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/UrlFilter
-async function handleSite() {
-
+async function handleSite(details) {
+  console.log("handling site: ", details);
+  if (enabled) {
+    browser.tabs.update(details.tabId, {url: "/assets/blocked.html#test"});
+  }
 }
 
 
 browser.runtime.onMessage.addListener(handleMessage);
 browser.runtime.onInstalled.addListener(handleInstalled);
-browser.webNavigation.addListener(handleSite, {url: []})
