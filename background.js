@@ -1,6 +1,7 @@
 const defaultBlockedSites = ["twitter.com", "reddit.com", "facebook.com"]
 const defaultSettings = {
-	enableOnStartup: false
+	enableOnStartup: false,
+	visitAnywaysLength: 5
 }
 var enabled = true; // should probably be disabled by default
 

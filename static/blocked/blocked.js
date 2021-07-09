@@ -15,3 +15,13 @@ document.querySelector("#disableND").addEventListener("click", () => {
 		})
     })
 })
+document.querySelector("#visitAnyways").addEventListener("click", async () => {
+	const settings = (await browser.storage.local.get("settings")).settings;
+	console.log(settings)
+    browser.notifications.create("visit-anyways", {
+		type: "basic",
+		iconUrl: "/assets/icon.png",
+		title: "NoDistractions",
+		message: "You will be allowed to visit blocked sites on this tab for "+settings.visitAnywaysLength+" minutes."
+	});
+})

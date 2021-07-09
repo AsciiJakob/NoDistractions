@@ -1,5 +1,6 @@
 const defaultSettings = {
-	enableOnStartup: false
+	enableOnStartup: false,
+	visitAnywaysLength: 5
 }
 
 loadSettings();
@@ -10,12 +11,27 @@ document.querySelector("#downloadBlocklist").addEventListener("click", downloadB
 document.querySelector("#importClipboardButton").addEventListener("click", importFromClipboard);
 
 async function loadSettings() {
+	console.log("here")
+	activeSettings = checkMissingSettings(await getActiveSettings());
 	activeSettings = await getActiveSettings();
 	for (settingElement of document.querySelectorAll(".setting")) {
 		if (settingElement.type == "checkbox") {
 			settingElement.checked = activeSettings[settingElement.id];
+		} else if (settingElement.type == "number") {
+			settingElement.value = activeSettings[settingElement.id];
 		}
 	}
+}
+
+function checkMissingSettings(currentSettings) {
+	
+	for (settingKey in defaultSettings) {
+		if (!currentSettings[settingKey]) {
+			currentSettings[settingKey] = defaultSettings[settingKey];
+		}
+	}
+	browser.storage.local.set({settings: currentSettings});
+	return currentSettings;
 }
 
 async function getActiveSettings() {
@@ -28,6 +44,8 @@ async function saveSetting(element) {
 
 		if (element.type == "checkbox") {
 			newSettings[element.id] = element.checked;
+		}  else if (settingElement.type == "number") {
+			newSettings[element.id] = element.value;
 		}
 
 		console.log("setting new setting")
@@ -89,6 +107,7 @@ function importFromClipboard() {
 
 
 	browser.storage.local.set({blockedSites: newBlockedSites});
+	browser.runtime.sendMessage({type: "updatedBlocklist"});
 	displayImportAlert("Imported list.", true)
 }
 

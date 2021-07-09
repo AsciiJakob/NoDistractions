@@ -9,8 +9,10 @@
     <h1 id="settingstext">Settings</h1>
     <div id="settingsContainer">
       <label>Enable by default on browser startup <input class="setting" type="checkbox" id="enableOnStartup"/></label>
-      
-      <br><button id="resetSettings">Reset to defaults</button>
+      <br>
+      <label>Visit-anyways timer length in minutes <input class="setting" type="number" id="visitAnywaysLength"/></label>
+
+      <br><br><button id="resetSettings">Reset to defaults</button>
     </div>
     <div>
       <h1>Import site-blocklist</h1>
@@ -44,5 +46,8 @@
   }
   .success {
     color: green;
+  }
+  #visitAnywaysLength {
+    width: 7vh;
   }
 </style>
