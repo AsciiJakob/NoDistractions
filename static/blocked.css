@@ -1,0 +1,48 @@
+:root {
+	--primary-color: #bbd8e3;
+}
+
+body {
+	/* pink */
+	/* background: #f4c4f3; 
+  	background: -webkit-linear-gradient(to right, #f4c4f3, #fc67fa); 
+  	background: linear-gradient(to right, #f4c4f3, #fc67fa); */
+	  text-align: center;
+	  background: #203a43;
+	  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#header {
+	/* background-color: rgb(62, 77, 105); */
+	height: 100%;
+	width: 100%;
+}
+#displayURL {
+	color: #92adb8;
+}
+#blockedText {
+	color: var(--primary-color);
+}
+#buttonAreaContainer {
+	margin-top: 25%;
+	
+}
+#buttonArea {
+	width: 50%;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-around;
+}
+#buttonArea > button{
+	width: 20vh;
+	height: 7vh;
+	background-color: #409240;
+	/* color: #68BEDB; */
+	color: rgb(255, 255, 255);
+	border: 2px solid rgb(19, 19, 19);
+}
+#image {
+	height: 50vh;
+	width: auto;
+}

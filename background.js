@@ -33,7 +33,7 @@ async function handleMessage(request, sender, sendResponse) {
   return new Promise(async resolve => {
     let storage = await browser.storage.local.get("blockedSites");
     switch(request.type) {
-      case "isSiteBlocked":
+      case "isSiteBlocked": {
         let isBlocked = false;
         if (!enabled) {
           resolve({response: isBlocked});
@@ -47,25 +47,34 @@ async function handleMessage(request, sender, sendResponse) {
         }
         resolve({response: isBlocked});
         break;
-      case "updatedBlocklist":
+      }
+      case "updatedBlocklist": {
         loadBlocklist();
         resolve(true);
         break;
-      case "isEnabled":
+      }
+      case "isEnabled": {
         resolve({response: enabled});
         break;
-      case "toggleEnabled":
+      }
+      case "toggleEnabled": {
         enabled = !enabled;
         resolve({response: enabled});
         break;
+      }
+      case "setEnabled": {
+        enabled = request.enabled;
+        resolve({response: enabled});
+      }
     }
   })
 }
-
+// TODO: blockedsiteThings starting with ! or something could be regex ones.
 async function handleSite(details) {
   console.log("handling site: ", details);
   if (enabled) {
-    browser.tabs.update(details.tabId, {url: "/assets/blocked.html#test"});
+    console.log(details.tabId)
+    browser.tabs.update(details.tabId, {url: `/static/blocked.html?url=${details.url}`});
   }
 }
 
