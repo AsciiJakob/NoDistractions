@@ -17,7 +17,7 @@
   "browser_action": {
     "default_icon": "assets/icon.png",
     "default_title": "No Distractions",
-    "default_popup": "/popup/popup.html"
+    "default_popup": "/static/popup/popup.html"
   },
   "content_scripts": [
     {
