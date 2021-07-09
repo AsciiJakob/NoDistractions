@@ -74,7 +74,7 @@ async function handleSite(details) {
   console.log("handling site: ", details);
   if (enabled) {
     console.log(details.tabId)
-    browser.tabs.update(details.tabId, {url: `/static/blocked.html?url=${details.url}`});
+    browser.tabs.update(details.tabId, {url: `/static/blocked/blocked.html?url=${details.url}`});
   }
 }
 
