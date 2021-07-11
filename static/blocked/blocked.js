@@ -24,4 +24,10 @@ document.querySelector("#visitAnyways").addEventListener("click", async () => {
 		title: "NoDistractions",
 		message: "You will be allowed to visit blocked sites on this tab for "+settings.visitAnywaysLength+" minutes."
 	});
+	// maybe using browser.alarms.create() is better than settimeout
+
+	setTimeout(() => {
+		
+	// }, settings.visitAnywaysLength*60000);
+	}, settings.visitAnywaysLength);
 })
