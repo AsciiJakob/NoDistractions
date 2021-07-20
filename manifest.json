@@ -8,7 +8,7 @@
   "homepage_url": "https://github.com/TBA",
   "browser_specific_settings": {
     "gecko": {
-      "id": "NoDistractions@asciijakob.org"
+      "id": "NoDistractions@asciijakob"
     }
   },
   "icons": {
@@ -17,7 +17,7 @@
   "browser_action": {
     "default_icon": "assets/icon.png",
     "default_title": "No Distractions",
-    "default_popup": "/static/popup/popup.html"
+    "default_popup": "/static/extension_popup/popup.html"
   },
   "content_scripts": [
     {

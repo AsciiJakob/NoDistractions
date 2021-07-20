@@ -1,5 +1,6 @@
 :root {
 	--primary-color: #bbd8e3;
+	--secondary-color: #92adb8;
 }
 
 body {
@@ -16,10 +17,10 @@ body {
 	height: 100%;
 	width: 100%;
 }
-#displayURL {
-	color: #92adb8;
+#displayURL, span {
+	color: var(--secondary-color);
 }
-#blockedText {
+h1 {
 	color: var(--primary-color);
 }
 #buttonAreaContainer {
@@ -27,7 +28,7 @@ body {
 	
 }
 #buttonArea {
-	width: 50%;
+	width: 25%;
 	margin: 0 auto;
 	display: flex;
 	flex-wrap: wrap;
@@ -45,4 +46,7 @@ body {
 #image {
 	height: 50vh;
 	width: auto;
+}
+#visitAnyways {
+	color: white;
 }

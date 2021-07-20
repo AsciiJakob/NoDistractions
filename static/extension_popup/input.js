@@ -1,12 +1,13 @@
-let sitesListContainer = document.querySelector(".sitesListContainer")
+let sitesListContainer = document.querySelector(".sitesListContainer");
 
 document.querySelector("body").addEventListener("click", (mouseEvent) => {
     let target = mouseEvent.target;
     switch(target.classList[0]) {
-        case "ToggleButton":
+        case "ToggleButton": {
             toggle();
             break;
-        case "SettingsButton":
+        }
+        case "SettingsButton": {
             var settings = document.querySelector(".settingsContainer");
             if (settings.style.display == "none") {
                 settings.style.display = "block";
@@ -15,10 +16,12 @@ document.querySelector("body").addEventListener("click", (mouseEvent) => {
                 settings.style.display = "none";
             }
             break;
-        case "addButton":
+        }
+        case "addButton": {
             addSiteItem();
             break;
-        case "siteXButton":
+        }
+        case "siteXButton": {
             const children = sitesListContainer.children;
             if (children[children.length-1] == target.parentElement && target.value == "") {
                 return;
@@ -26,17 +29,19 @@ document.querySelector("body").addEventListener("click", (mouseEvent) => {
             target.parentElement.remove();
             saveSettings();
             break;
-        case "moreButton":
+        }
+        case "moreButton": {
             browser.runtime.openOptionsPage();
             break;
         }
+    }
 });
 
 
 // "change" is called once you exit out of an input field and "input" is called whenever the input field recieves any input
 sitesListContainer.addEventListener("change", (mouseEvent) => { 
     saveSettings();
-})
+});
 sitesListContainer.addEventListener("input", (mouseEvent) => {
     let target = mouseEvent.target;
     const children = sitesListContainer.children;
@@ -45,4 +50,4 @@ sitesListContainer.addEventListener("input", (mouseEvent) => {
             addSiteItem();
         }
     }
-})
+});

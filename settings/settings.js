@@ -1,7 +1,7 @@
 const defaultSettings = {
 	enableOnStartup: false,
-	visitAnywaysLength: 5
-}
+	visitAnywaysLength: 3
+};
 
 loadSettings();
 
@@ -11,7 +11,6 @@ document.querySelector("#downloadBlocklist").addEventListener("click", downloadB
 document.querySelector("#importClipboardButton").addEventListener("click", importFromClipboard);
 
 async function loadSettings() {
-	console.log("here")
 	activeSettings = checkMissingSettings(await getActiveSettings());
 	activeSettings = await getActiveSettings();
 	for (settingElement of document.querySelectorAll(".setting")) {
@@ -48,8 +47,8 @@ async function saveSetting(element) {
 			newSettings[element.id] = element.value;
 		}
 
-		console.log("setting new setting")
-		console.log("new settings are: ", newSettings)
+		console.log("setting new setting");
+		console.log("new settings are: ", newSettings);
 		browser.storage.local.set({settings: newSettings});
 		browser.runtime.sendMessage({type: "updatedBlocklist"});
 	}
@@ -57,7 +56,7 @@ async function saveSetting(element) {
 
 async function resetSettings() {
 	for (settingID in defaultSettings) {
-		console.log("setting:", settingID)
+		console.log("setting:", settingID);
 		let settingElement = document.querySelector("#"+settingID);
 		if (settingElement.type == "checkbox") {
 			settingElement.checked = defaultSettings[settingID];
@@ -69,11 +68,11 @@ async function resetSettings() {
 
 async function downloadBlocklist() {
 	const storage = await browser.storage.local.get("blockedSites");
-	let downloadElement = document.createElement('a');
-	downloadElement.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage.blockedSites)));
-	downloadElement.setAttribute('download', "ND-SiteBlocklist");
+	let downloadElement = document.createElement("a");
+	downloadElement.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(storage.blockedSites)));
+	downloadElement.setAttribute("download", "ND-SiteBlocklist");
   
-	downloadElement.style.display = 'none';
+	downloadElement.style.display = "none";
 	document.body.appendChild(downloadElement);
   
 	downloadElement.click();
@@ -97,22 +96,22 @@ function importFromClipboard() {
 	try {
 		newBlockedSites = JSON.parse(input);
 	} catch {
-		console.log("not json error")
+		console.log("not json error");
 		return displayImportAlert("Parsing input failed. Please input an array of sites.");
 	}
 	if (!Array.isArray(newBlockedSites)) {
-		console.log("wrong input type error")
+		console.log("wrong input type error");
 		return displayImportAlert("Incorrect type of data.");
 	}
 
 
 	browser.storage.local.set({blockedSites: newBlockedSites});
 	browser.runtime.sendMessage({type: "updatedBlocklist"});
-	displayImportAlert("Imported list.", true)
+	displayImportAlert("Imported list.", true);
 }
 
 function displayImportAlert(text, success) {
-	console.log("improted alert func", text, success)
+	console.log("improted alert func", text, success);
 	const alertText = document.querySelector("#importAlertText");
 	alertText.style.display = "block";
 	if (success) {
@@ -120,6 +119,6 @@ function displayImportAlert(text, success) {
 		alertText.innerText = text;
 	} else {		
 		alertText.className = "error";
-		alertText.innerText = text+"\nCorrect usage: \n[\"example.org\", \"testsite.org\"]";
+		alertText.innerText = text+"\nCorrect usage: \n[\"example.org\", \"testsite.com\"]";
 	}
 }
