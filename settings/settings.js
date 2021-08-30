@@ -67,9 +67,9 @@ async function resetSettings() {
 }
 
 async function downloadBlocklist() {
-	const storage = await browser.storage.local.get("blockedSites");
+	const storage = await browser.storage.local.get("blockedSites_V1");
 	let downloadElement = document.createElement("a");
-	downloadElement.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(storage.blockedSites)));
+	downloadElement.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(storage.blockedSites_V1)));
 	downloadElement.setAttribute("download", "ND-SiteBlocklist");
   
 	downloadElement.style.display = "none";
@@ -82,9 +82,9 @@ async function downloadBlocklist() {
 
 loadCopyTextarea();
 async function loadCopyTextarea() {
-	const storage = await browser.storage.local.get("blockedSites");
+	const storage = await browser.storage.local.get("blockedSites_V1");
 	const copyTextarea = document.querySelector("#exportClipboard");
-	copyTextarea.value = JSON.stringify(storage.blockedSites);
+	copyTextarea.value = JSON.stringify(storage.blockedSites_V1);
 }
 
 function importFromClipboard() {
@@ -105,7 +105,7 @@ function importFromClipboard() {
 	}
 
 
-	browser.storage.local.set({blockedSites: newBlockedSites});
+	browser.storage.local.set({blockedSites_V1: newBlockedSites});
 	browser.runtime.sendMessage({type: "updatedBlocklist"});
 	displayImportAlert("Imported list.", true);
 }

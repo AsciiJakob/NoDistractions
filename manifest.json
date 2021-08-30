@@ -28,12 +28,17 @@
       ]
     }
   ],
+  "web_accessible_resources": [
+    "/static/blocked/blocked.html"
+  ],
   "permissions": [
     "storage",
     "tabs",
     "webNavigation",
     "<all_urls>",
-    "notifications"
+    "notifications",
+    "webRequest",
+    "webRequestBlocking"
   ],
   "background": {
     "scripts": [

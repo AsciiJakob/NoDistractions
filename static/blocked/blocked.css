@@ -38,15 +38,19 @@ h1 {
 #buttonArea > button{
 	width: 20vh;
 	height: 7vh;
-	background-color: #409240;
+	/* background-color: #3f565d; */
+	/* background-color: #bf3e3e; */
+	background-color: #3b9fbd; 
 	/* color: #68BEDB; */
 	color: rgb(255, 255, 255);
 	border: 2px solid rgb(19, 19, 19);
+	font-size: 1em;
+	/* text-transform: uppercase; */
 }
 #image {
 	height: 50vh;
 	width: auto;
 }
-#visitAnyways {
+.white {
 	color: white;
 }

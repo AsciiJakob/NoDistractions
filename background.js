@@ -8,9 +8,9 @@ let blockExceptions = [];
 
 async function handleInstalled(details) {
   // if (details.reason != "install") return; // details.reason returns 'update' when reloading in debugging
-  browser.storage.local.get("blockedSites").then(res => {
-    if (res.blockedSites == undefined) {
-      browser.storage.local.set({blockedSites: defaultBlockedSites});
+  browser.storage.local.get("blockedSites_V1").then(res => {
+    if (res.blockedSites_V1 == undefined) {
+      browser.storage.local.set({blockedSites_V1: defaultBlockedSites});
     }
   });
   browser.storage.local.get("settings").then(res => {
@@ -20,27 +20,41 @@ async function handleInstalled(details) {
   });
 }
 
-// TODO: Seems like certain things loaded from within a website is blocked. for example https://grantnorwood.com/eslint-parsing-error-unexpected-token-visual-studio-code/ gets blocked because it loads a resource from twitter cdn.
-
-// TODO: This function breaks sometimes when first loading it because browser.storage.local.get("blockedSites"); doesn't return anything. Perhaps running it on some "loaded" event or something could fix it, or perhaps just waiting a bit then retrying.
-// Priority of that is kind of high because it prevents it from working sometimes.
 loadBlocklist();
 async function loadBlocklist() {
-  let loadedBlocklist = await browser.storage.local.get("blockedSites");
+  let loadedBlocklist = await browser.storage.local.get("blockedSites_V1");
   let blockUrls = [];
   console.log("loadedblockist: ", loadedBlocklist);
-  for (site of loadedBlocklist.blockedSites) {
-    // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/UrlFilter
-    blockUrls.push({hostContains: site});
+  if (Object.keys(loadedBlocklist) == 0) {
+    console.log("Failed to load blocklist, trying again in one second.");
+    setTimeout(() => {
+      return loadBlocklist();
+    }, 1000);
+  } 
+  // for (site of loadedBlocklist.blockedSites) {
+  //   // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/UrlFilter
+  //   blockUrls.push({hostContains: site});
+  // }
+  for (siteDomain of loadedBlocklist.blockedSites_V1) {
+    blockUrls.push("*://"+siteDomain+"/*");
+    if (!siteDomain.startsWith("*.") && !siteDomain.startsWith("www.")) { // this is done for user friendliness sakes. I hope it's something sensical to do and doesn't cause any issues.
+      console.log("registering a www block for "+siteDomain);
+      blockUrls.push("*://www."+siteDomain+"/*");
+    }
+    // blockUrls.push("*://*."+site+"/*");
   }
-  browser.webNavigation.onBeforeNavigate.removeListener(handleSite);
-  browser.webNavigation.onBeforeNavigate.addListener(handleSite, {url: blockUrls});
+  // browser.webNavigation.onBeforeNavigate.removeListener(handleSite);
+  // browser.webNavigation.onBeforeNavigate.addListener(handleSite, {url: blockUrls});
+  browser.webRequest.onBeforeRequest.removeListener(handleSite);
+  browser.webRequest.onBeforeRequest.addListener(handleSite, {urls: blockUrls, types: ["main_frame", "web_manifest", "sub_frame"]}, ["blocking"]);
+  // also we need to use "blocking"/BlockingResponse
 }
 
 async function handleMessage(request, sender, sendResponse) {
   // eslint-disable-next-line no-async-promise-executor
   return new Promise(async resolve => {
-    let storage = await browser.storage.local.get("blockedSites");
+    let storage = await browser.storage.local.get("blockedSites_V1");
+    // a better looking way to do this, rather than a switch statement, would be to create an object with a bunch of functions that can be ran from messages like "messageHandlers[request.type]();"
     switch(request.type) {
       case "isSiteBlocked": {
         let isBlocked = false;
@@ -48,7 +62,7 @@ async function handleMessage(request, sender, sendResponse) {
           resolve({response: isBlocked});
           return;
         }
-        for (siteUrl of storage.blockedSites) {
+        for (siteUrl of storage.blockedSites_V1) {
           if (request.url.includes(siteUrl)) {
             isBlocked = true;
             break;
@@ -87,7 +101,15 @@ async function handleMessage(request, sender, sendResponse) {
               createNotification("visit-anyways-reminder", "You have less than one minute remaining before you get locked out again.");
               setTimeout(() => {
                 if (!enabled) return removeFromBlocklist(request.data);
-                browser.tabs.update(tab.id, {url: `/static/blocked/blocked.html?url=${tab.url}`});
+                // TODO: Need to check if the site currently on should be blocked or not. Although i can't think of any good way of doing this with how the extension currently works
+                browser.tabs.get(request.data.tabId).then(tab => {
+                  // browser.tabs.update(tab.id, {url: `/static/blocked/blocked.html?url=${tab.url}`});
+                  console.log("NEED TO CHECK URL ", tab.url);
+                })
+                .catch(err => {
+                  console.log("removing From tab from blocklist because the tab doesn't exist anymore.");
+                  return removeFromBlocklist(request.data);
+                });
               }, 60000);
             })
             .catch(err => {
@@ -101,8 +123,9 @@ async function handleMessage(request, sender, sendResponse) {
     }
   });
 }
-// TODO: regex support.
+
 async function handleSite(details) {
+  console.log("hadnling a site, details: ", details);
   if (!enabled) return;
   for (exception of blockExceptions) {
     if (details.tabId == exception.tabId) {
@@ -114,8 +137,12 @@ async function handleSite(details) {
       return;
     }
   }
-  console.log("blocked: ", details);
-  browser.tabs.update(details.tabId, {url: `/static/blocked/blocked.html?url=${details.url}`});
+  console.log("site was actually blocked.");
+  // browser.tabs.update(details.tabId, {url: `/static/blocked/blocked.html?url=${details.url}`});
+  console.log("trying to redirect to "+browser.runtime.getURL(`/static/blocked/blocked.html?url=${details.url}`));
+  return {
+    redirectUrl: browser.runtime.getURL(`/static/blocked/blocked.html?url=${details.url}`)
+  };
 }
 
 function createNotification(name, alertmessage) {
@@ -134,6 +161,9 @@ function removeFromBlocklist(item) {
   }
 }
 
+function isSiteBlocked(site) {
+  
+}
 
 browser.runtime.onMessage.addListener(handleMessage);
 browser.runtime.onInstalled.addListener(handleInstalled);

@@ -1,6 +1,6 @@
 browser.runtime.sendMessage({type: "isEnabled"}).then(res => {
     updateText(res.response);
-})
+});
 
 
 function toggle() {
@@ -9,7 +9,7 @@ function toggle() {
         if (res.response == true) {
             checkAllTabs(res.response);
         }
-    })
+    });
 }
 
 function saveSettings() {
@@ -20,15 +20,15 @@ function saveSettings() {
             newBlockedSites.push(child.firstElementChild.value);
         }
     }
-    browser.storage.local.set({blockedSites: newBlockedSites});
+    browser.storage.local.set({blockedSites_V1: newBlockedSites});
     browser.runtime.sendMessage({type: "updatedBlocklist"});
 }
 
 async function loadSettings() {
     let sitesListContainer = document.querySelector(".sitesListContainer");
-    let storage = await browser.storage.local.get("blockedSites");
+    let storage = await browser.storage.local.get("blockedSites_V1");
     sitesListContainer.innerHTML = "";
-    for (site of storage.blockedSites) {
+    for (site of storage.blockedSites_V1) {
         addSiteItem(site);
     }
     
@@ -73,10 +73,10 @@ async function checkAllTabs(nowEnabled) {
         if (isBlocked.response == true) {
             if (nowEnabled) {
                 browser.tabs.executeScript(tab.id, {
-                    code: `blockPage();`
+                    code: "blockPage();"
                 });
             } else {
-
+                //
             }
         }
     }
