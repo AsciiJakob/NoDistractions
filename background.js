@@ -39,6 +39,7 @@ async function loadBlocklist() {
     blockUrls.push("*://"+siteDomain+"/*");
     if (!siteDomain.startsWith("*.") && !siteDomain.startsWith("www.")) { // this is done for user friendliness sakes. I hope it's something sensical to do and doesn't cause any issues.
       console.log("registering a www block for "+siteDomain);
+      // blockUrls.push("*://www."+siteDomain+"/*");
       blockUrls.push("*://www."+siteDomain+"/*");
     }
     // blockUrls.push("*://*."+site+"/*");
@@ -99,6 +100,10 @@ async function handleMessage(request, sender, sendResponse) {
               console.log("tab: ", tab);
               if (!enabled) return removeFromBlocklist(request.data);
               createNotification("visit-anyways-reminder", "You have less than one minute remaining before you get locked out again.");
+              browser.browserAction.setBadgeText({
+                text: "1m",
+                tabId: tab.id
+              });
               setTimeout(() => {
                 if (!enabled) return removeFromBlocklist(request.data);
                 // TODO: Need to check if the site currently on should be blocked or not. Although i can't think of any good way of doing this with how the extension currently works
@@ -161,6 +166,7 @@ function removeFromBlocklist(item) {
   }
 }
 
+// TODO: We need this function for setting if a site should be blocked. Normally we just add an array of domains to the an event brought to us by firefox, That is probably good practice interms of performance, but we also need to be able to tell if a site should be blocekd for other purposes! 
 function isSiteBlocked(site) {
   
 }

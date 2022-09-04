@@ -9,6 +9,7 @@ document.querySelector("#settingsContainer").addEventListener("click", mouseEven
 document.querySelector("#resetSettings").addEventListener("click", resetSettings);
 document.querySelector("#downloadBlocklist").addEventListener("click", downloadBlocklist);
 document.querySelector("#importClipboardButton").addEventListener("click", importFromClipboard);
+document.querySelector("#selectAll").addEventListener("click", selectAll);
 
 async function loadSettings() {
 	activeSettings = checkMissingSettings(await getActiveSettings());
@@ -85,6 +86,10 @@ async function loadCopyTextarea() {
 	const storage = await browser.storage.local.get("blockedSites_V1");
 	const copyTextarea = document.querySelector("#exportClipboard");
 	copyTextarea.value = JSON.stringify(storage.blockedSites_V1);
+}
+
+async function selectAll() {
+	document.querySelector("#exportClipboard").select();
 }
 
 function importFromClipboard() {

@@ -4,7 +4,8 @@
 </head>
 <body>
     <div id="mainPopup">
-        <h1 id="StatusTextParent">No Distractions is currently <span id="StatusText"class="StatusDisabled">loading</span></h1>
+        <h1 id="StatusTextParent">NoDistractions is currently <span id="StatusText" class="StatusDisabled">loading</span></h1>
+        <!-- <p id="StatusHint">Click the cogwheel to add more sites to your blocklist.</p> -->
         <button class="ToggleButton ndButton">Enable</button>
         <button class="SettingsButton ndButton"> <!-- settings button --> <!-- https://emblemicons.in/icons/settings/ -->
             <img src="../media/cogwheel.svg" style="pointer-events: none; margin-right: 10%;"\>
@@ -14,8 +15,11 @@
     <div class="settingsContainer" style="display: none;">
         <p id="settingsText">Sites to block:</p>
         <details>
-            <summary>Click me for help</summary>
-            <p id="settingsTextTip">Tip: You can add *. before a site to block all of it's subdomains.</p>
+            <summary>Click for help</summary>
+            <p id="settingsTextTip">
+                In every input field below, you can input the domain name of a website which you would like to be blocked whilst NoDistractions is enabled.
+                <br><br>Tip: You can add *. before a site to block all of it's subdomains.
+            </p>
         </details>
         <div class="sitesListContainer"> 
             <!-- content is added in popup.js within the loadSettings function. -->
@@ -30,16 +34,26 @@
 
 <style>
     body {
-        background-color: rgb(233, 236, 238);
+        background-color: rgb(247, 247, 247);
         width: 230px;
+    }
+    h1, p, summary, button {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     #StatusTextParent {
         color: rgb(31, 31, 31);
         font-size: small;
+        /* margin-bottom: 0; */
         /* font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif */
         /* font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif */
         /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    #StatusHint {
+        font-size: small;
+        padding: 0;
+        margin-top: 1px;
+        margin-bottom: 5px;
+        /* margin: 0; */
     }
     .StatusEnabled {
         color: rgb(0, 211, 53);
@@ -48,8 +62,9 @@
         color: rgb(194, 0, 0);
     }
     .ToggleButton {
-        width: 25vw;
-        height: 10vw;
+        /* width: 25vw; */
+        width: 60px;
+        /* height: 10vw; */
     }
     .SettingsButton {
         float: right;
@@ -61,17 +76,18 @@
     }
     #settingsText {
         margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     #settingsTextTip {
         margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         font-size: 0.8em;
     }
     .settingsContainer {
         width: 100%;
-        background-color: rgb(233, 236, 238);
+        background-color: rgb(247, 247, 247);
         margin-top: 7px;
+    }
+    summary {
+        font-size: small;
     }
     .sitesListContainer {
         width: 100%;
@@ -101,11 +117,10 @@
         color: rgb(194, 0, 0) !important;
     }
     .ndButton {
-        background-color: rgb(233, 236, 238);
+        background-color: rgb(247, 247, 247);
         /* background-color: rgba(12, 12, 13, 0.1); */
         border: 1px solid rgb(38, 39, 41);
         color: rgb(38, 39, 41);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         height: 25px;
         box-shadow: 1px 1px 0px rgb(38, 39, 41);
     }
