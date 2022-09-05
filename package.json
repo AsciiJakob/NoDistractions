@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
-    "webextension-polyfill": "^0.8.0"
+    "webextension-polyfill": "^0.10.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
