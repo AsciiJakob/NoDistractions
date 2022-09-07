@@ -10,7 +10,7 @@ if (browser.storage.local.get("initialSetup") == true) {
   initalize();
 }
 async function initalize() {
-  loadBlocklist();
+  await updateRequestListener();
   browser.storage.local.get("settings").then(res => {
     enabled = res.settings.enableOnStartup;
   });
@@ -33,114 +33,84 @@ async function handleInstalled(details) {
   initalize();
 }
 
-async function loadBlocklist() {
+async function getBlocklistURLPatterns() {
   let loadedBlocklist = await browser.storage.local.get("blockedSites_V1");
-  let blockUrls = [];
-  console.log("loadedblockist: ", loadedBlocklist);
+  let URLPatterns = [];
   if (Object.keys(loadedBlocklist) == 0) {
-    console.log("Failed to load blocklist, trying again in one second.");
-    setTimeout(() => {
-      return loadBlocklist();
-    }, 1000);
+    console.error("Failed to load the blocklist.");
   } 
-  // for (site of loadedBlocklist.blockedSites) {
-  //   // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/UrlFilter
-  //   blockUrls.push({hostContains: site});
-  // 
-  let siteDomain = null;
   for (siteDomain of loadedBlocklist.blockedSites_V1) {
-    blockUrls.push("*://"+siteDomain+"/*");
+    URLPatterns.push("*://"+siteDomain+"/*");
     if (!siteDomain.startsWith("*.") && !siteDomain.startsWith("www.")) { // this is done for user friendliness sakes. I hope it's something sensical to do and doesn't cause any issues.
       console.log("registering a www block for "+siteDomain);
-      blockUrls.push("*://www."+siteDomain+"/*");
+      URLPatterns.push("*://www."+siteDomain+"/*");
     }
-    // blockUrls.push("*://*."+site+"/*");
   }
-  // browser.webNavigation.onBeforeNavigate.removeListener(handleSite);
-  // browser.webNavigation.onBeforeNavigate.addListener(handleSite, {url: blockUrls});
-  browser.webRequest.onBeforeRequest.removeListener(handleSite);
-  // TODO: web_manifest type is not available on chrome, but is on firefox
-  browser.webRequest.onBeforeRequest.addListener(handleSite, {urls: blockUrls, types: ["main_frame", "sub_frame"]}, ["blocking"]);
-  
-  // also we need to use "blocking"/BlockingResponse
+  return URLPatterns;
+}
+async function updateRequestListener() {
+  await browser.webRequest.onBeforeRequest.removeListener(handleSite);
+  return browser.webRequest.onBeforeRequest.addListener(handleSite, {urls: await getBlocklistURLPatterns(), types: ["main_frame", "sub_frame"]}, ["blocking"]); // TODO: web_manifest type is not available on chrome, but is on firefox
 }
 
 async function handleMessage(request, sender, sendResponse) {
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async resolve => {
-    let storage = await browser.storage.local.get("blockedSites_V1");
-    // a better looking way to do this, rather than a switch statement, would be to create an object with a bunch of functions that can be ran from messages like "messageHandlers[request.type]();"
-    switch(request.type) {
-      case "isSiteBlocked": {
-        let isBlocked = false;
-        if (!enabled) {
-          resolve({response: isBlocked});
-          return;
-        }
-        for (siteUrl of storage.blockedSites_V1) {
-          if (request.url.includes(siteUrl)) {
-            isBlocked = true;
-            break;
-          }
-        }
-        resolve({response: isBlocked});
-        break;
-      }
-      case "updatedBlocklist": {
-        loadBlocklist();
-        resolve(true);
-        break;
-      }
-      case "isEnabled": {
-        resolve({response: enabled});
-        break;
-      }
-      case "toggleEnabled": {
-        enabled = !enabled;
-        resolve({response: enabled});
-        break;
-      }
-      case "setEnabled": {
-        enabled = request.enabled;
-        resolve({response: enabled});
-        break;
-      }
-      case "addBlockingException": {
-        blockExceptions.push(request.data);
-        resolve({response: true});
-        if (request.data.allowedLength > 60000) {
-          setTimeout(() => {
-            browser.tabs.get(request.data.tabId).then(tab => {
-              console.log("tab: ", tab);
-              if (!enabled) return removeException(request.data);
-              createNotification("visit-anyways-reminder", "You have less than one minute remaining before you get locked out again.");
-              browser.browserAction.setBadgeText({
-                text: "1m",
-                tabId: tab.id
-              });
-              setTimeout(() => {
-                if (!enabled) return removeException(request.data);
-                // TODO: Need to check if the site currently on should be blocked or not. Although i can't think of any good way of doing this with how the extension currently works
-                browser.tabs.get(request.data.tabId).then(tab => {
-                  // browser.tabs.update(tab.id, {url: `/static/blocked/blocked.html?url=${tab.url}`});
-                  console.log("NEED TO CHECK URL ", tab.url);
-                })
-                .catch(err => {
-                  console.log("removing From tab from blocklist because the tab doesn't exist anymore.");
-                  return removeException(request.data);
-                });
-              }, 60000);
-            })
-            .catch(err => {
-              console.log("removing From tab from blocklist because the tab doesn't exist anymore.");
-              return removeException(request.data);
+  let storage = await browser.storage.local.get("blockedSites_V1");
+  // a better looking way to do this, rather than a switch statement, would be to create an object with a bunch of functions that can be ran from messages like "messageHandlers[request.type]();"
+  switch(request.type) {
+    case "updatedBlocklist": {
+      updateRequestListener();
+      resolve(true);
+      break;
+    }
+    case "isEnabled": {
+      resolve({response: enabled});
+      break;
+    }
+    case "toggleEnabled": {
+      enabled = !enabled;
+      resolve({response: enabled});
+      break;
+    }
+    case "setEnabled": {
+      enabled = request.enabled;
+      resolve({response: enabled});
+      break;
+    }
+    case "addBlockingException": {
+      blockExceptions.push(request.data);
+      resolve({response: true});
+      if (request.data.allowedLength > 60000) {
+        setTimeout(() => {
+          browser.tabs.get(request.data.tabId).then(tab => {
+            console.log("tab: ", tab);
+            if (!enabled) return removeException(request.data);
+            createNotification("visit-anyways-reminder", "You have less than one minute remaining before you get locked out again.");
+            browser.browserAction.setBadgeText({
+              text: "1m",
+              tabId: tab.id
             });
-            // if (request.data.tab)
-          }, request.data.allowedLength-60000);
-        }
+            setTimeout(() => {
+              if (!enabled) return removeException(request.data);
+              // TODO: Need to check if the site currently on should be blocked or not. Although i can't think of any good way of doing this with how the extension currently works
+              browser.tabs.get(request.data.tabId).then(tab => {
+                // browser.tabs.update(tab.id, {url: `/static/blocked/blocked.html?url=${tab.url}`});
+                console.log("NEED TO CHECK URL ", tab.url);
+              })
+              .catch(err => {
+                console.log("removing From tab from blocklist because the tab doesn't exist anymore.");
+                return removeException(request.data);
+              });
+            }, 60000);
+          })
+          .catch(err => {
+            console.log("removing From tab from blocklist because the tab doesn't exist anymore.");
+            return removeException(request.data);
+          });
+          // if (request.data.tab)
+        }, request.data.allowedLength-60000);
       }
     }
-  });
+  }
 }
 
 async function handleSite(details) {
@@ -179,9 +149,3 @@ function removeException(item) {
     blockExceptions.splice(itemIndex, 1);
   }
 }
-
-// TODO: We need this function for setting if a site should be blocked. Normally we just add an array of domains to the an event brought to us by firefox, That is probably good practice interms of performance, but we also need to be able to tell if a site should be blocekd for other purposes! 
-function isSiteBlocked(site) {
-  
-}
-

@@ -51,7 +51,6 @@ async function saveSetting(element) {
 		console.log("setting new setting");
 		console.log("new settings are: ", newSettings);
 		browser.storage.local.set({settings: newSettings});
-		browser.runtime.sendMessage({type: "updatedBlocklist"});
 	}
 }
 
