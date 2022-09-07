@@ -12,7 +12,7 @@ document.querySelector("#importClipboardButton").addEventListener("click", impor
 document.querySelector("#selectAll").addEventListener("click", selectAll);
 
 async function loadSettings() {
-	activeSettings = checkMissingSettings(await getActiveSettings());
+	await checkMissingSettings(await getActiveSettings());
 	activeSettings = await getActiveSettings();
 	for (settingElement of document.querySelectorAll(".setting")) {
 		if (settingElement.type == "checkbox") {
@@ -23,15 +23,15 @@ async function loadSettings() {
 	}
 }
 
-function checkMissingSettings(currentSettings) {
+async function checkMissingSettings(settings) {
 	
 	for (settingKey in defaultSettings) {
-		if (!currentSettings[settingKey]) {
-			currentSettings[settingKey] = defaultSettings[settingKey];
+		if (!settings[settingKey]) {
+			settings[settingKey] = defaultSettings[settingKey];
 		}
 	}
-	browser.storage.local.set({settings: currentSettings});
-	return currentSettings;
+	browser.storage.local.set({settings: settings});
+	return settings;
 }
 
 async function getActiveSettings() {

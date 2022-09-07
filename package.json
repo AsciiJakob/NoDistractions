@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "dependencies": {
+    "webext-patterns": "^1.2.0",
     "webextension-polyfill": "^0.10.0"
   },
   "scripts": {

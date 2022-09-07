@@ -24,7 +24,7 @@
       "matches": ["<all_urls>"],
       "js": [
         "./node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
-        "noDistractions.js"
+        "./NoDistractions.js"
       ]
     }
   ],
@@ -43,8 +43,10 @@
   "background": {
     "scripts": [
       "./node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
+      "./webext-patterns.1.2.0.js",
       "background.js"
-    ]
+    ],
+    "persistent": true
   },
   "options_ui": {
     "page": "/settings/settings.html",

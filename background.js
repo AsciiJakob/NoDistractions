@@ -3,24 +3,36 @@ const defaultSettings = {
 	enableOnStartup: false,
 	visitAnywaysLength: 3
 };
-let enabled = true; // should probably be disabled by default
+let enabled = false;
 let blockExceptions = [];
+browser.runtime.onInstalled.addListener(handleInstalled);
+if (browser.storage.local.get("initialSetup") == true) {
+  initalize();
+}
+async function initalize() {
+  loadBlocklist();
+  browser.storage.local.get("settings").then(res => {
+    enabled = res.settings.enableOnStartup;
+  });
+  browser.runtime.onMessage.addListener(handleMessage);
+} 
 
 async function handleInstalled(details) {
-  // if (details.reason != "install") return; // details.reason returns 'update' when reloading in debugging
-  browser.storage.local.get("blockedSites_V1").then(res => {
-    if (res.blockedSites_V1 == undefined) {
-      browser.storage.local.set({blockedSites_V1: defaultBlockedSites});
-    }
-  });
-  browser.storage.local.get("settings").then(res => {
-    if (res.settings == undefined) {
-      browser.storage.local.set({settings: defaultSettings});
-    }
-  });
+  if (details.reason !== "install") return;
+  const blockedSites = await browser.storage.local.get("blockedSites_V1");
+  if (Object.keys(blockedSites) == 0) {
+      await browser.storage.local.set({blockedSites_V1: defaultBlockedSites});
+  }
+  const settings = await browser.storage.local.get("settings");
+  if (Object.keys(settings) == 0) {
+    await browser.storage.local.set({settings: defaultSettings});
+  }
+
+  await browser.storage.local.set({initialSetup: true});
+  console.log("OK! calling initialize");
+  initalize();
 }
 
-loadBlocklist();
 async function loadBlocklist() {
   let loadedBlocklist = await browser.storage.local.get("blockedSites_V1");
   let blockUrls = [];
@@ -34,7 +46,8 @@ async function loadBlocklist() {
   // for (site of loadedBlocklist.blockedSites) {
   //   // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/events/UrlFilter
   //   blockUrls.push({hostContains: site});
-  // }
+  // 
+  let siteDomain = null;
   for (siteDomain of loadedBlocklist.blockedSites_V1) {
     blockUrls.push("*://"+siteDomain+"/*");
     if (!siteDomain.startsWith("*.") && !siteDomain.startsWith("www.")) { // this is done for user friendliness sakes. I hope it's something sensical to do and doesn't cause any issues.
@@ -46,7 +59,9 @@ async function loadBlocklist() {
   // browser.webNavigation.onBeforeNavigate.removeListener(handleSite);
   // browser.webNavigation.onBeforeNavigate.addListener(handleSite, {url: blockUrls});
   browser.webRequest.onBeforeRequest.removeListener(handleSite);
-  browser.webRequest.onBeforeRequest.addListener(handleSite, {urls: blockUrls, types: ["main_frame", "web_manifest", "sub_frame"]}, ["blocking"]);
+  // TODO: web_manifest type is not available on chrome, but is on firefox
+  browser.webRequest.onBeforeRequest.addListener(handleSite, {urls: blockUrls, types: ["main_frame", "sub_frame"]}, ["blocking"]);
+  
   // also we need to use "blocking"/BlockingResponse
 }
 
@@ -170,5 +185,3 @@ function isSiteBlocked(site) {
   
 }
 
-browser.runtime.onMessage.addListener(handleMessage);
-browser.runtime.onInstalled.addListener(handleInstalled);
