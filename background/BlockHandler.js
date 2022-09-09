@@ -1,4 +1,4 @@
-import BlockExceptions from "./BlockExceptions.js";
+import BlockExceptions from "/background/BlockExceptions.js";
 export default {
 	handleSite(details) {
 		console.log("hadnling a site, details: ", details);
