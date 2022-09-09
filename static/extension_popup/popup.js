@@ -15,7 +15,7 @@ function toggle() {
 function saveSettings() {
     const children = document.querySelector(".sitesListContainer").children;
     let newBlockedSites = [];
-    for (child of children) {
+    for (const child of children) {
         if (child.firstElementChild.value != "") {
             newBlockedSites.push(child.firstElementChild.value);
         }
@@ -28,7 +28,7 @@ async function loadSettings() {
     let sitesListContainer = document.querySelector(".sitesListContainer");
     let storage = await browser.storage.local.get("blockedSites_V1");
     sitesListContainer.innerHTML = "";
-    for (site of storage.blockedSites_V1) {
+    for (const site of storage.blockedSites_V1) {
         addSiteItem(site);
     }
     
@@ -68,7 +68,7 @@ function updateText(enabled) {
 
 async function checkAllTabs(nowEnabled) {
     let tabs = await browser.tabs.query({});
-    for (tab of tabs) {
+    for (const tab of tabs) {
         const isBlocked = await browser.runtime.sendMessage({type: "isSiteBlocked", url: tab.url});
         if (isBlocked.response == true) {
             if (nowEnabled) {

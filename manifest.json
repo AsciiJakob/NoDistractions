@@ -41,11 +41,7 @@
     "webRequestBlocking"
   ],
   "background": {
-    "scripts": [
-      "./node_modules/webextension-polyfill/dist/browser-polyfill.min.js",
-      "./webext-patterns.1.2.0.js",
-      "background.js"
-    ],
+    "page": "background/Background.html",
     "persistent": true
   },
   "options_ui": {

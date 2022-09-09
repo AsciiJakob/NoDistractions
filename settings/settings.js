@@ -14,7 +14,7 @@ document.querySelector("#selectAll").addEventListener("click", selectAll);
 async function loadSettings() {
 	await checkMissingSettings(await getActiveSettings());
 	activeSettings = await getActiveSettings();
-	for (settingElement of document.querySelectorAll(".setting")) {
+	for (const settingElement of document.querySelectorAll(".setting")) {
 		if (settingElement.type == "checkbox") {
 			settingElement.checked = activeSettings[settingElement.id];
 		} else if (settingElement.type == "number") {
