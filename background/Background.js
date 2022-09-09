@@ -8,7 +8,7 @@ const defaultSettings = {
 export let enabled = {
   status: false,
   setStatus(newStatus) {
-    this.enabled = newStatus;
+    this.status = newStatus;
   }
 };
 browser.runtime.onInstalled.addListener(handleInstalled);
@@ -24,8 +24,11 @@ async function initalize() {
 } 
 
 async function handleMessage(request, sender, sendResponse) {
-  return MessageHandler[request.type]();
-
+  if (MessageHandler[request.type]) {
+    return MessageHandler[request.type]();
+  } else {
+    console.error("Message", request.type, "does not exist.");
+  }
 }
 
 async function handleInstalled(details) {

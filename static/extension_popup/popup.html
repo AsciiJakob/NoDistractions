@@ -5,11 +5,9 @@
 <body>
     <div id="mainPopup">
         <h1 id="StatusTextParent">NoDistractions is currently <span id="StatusText" class="StatusDisabled">loading</span></h1>
-        <!-- <p id="StatusHint">Click the cogwheel to add more sites to your blocklist.</p> -->
         <button class="ToggleButton ndButton">Enable</button>
         <button class="SettingsButton ndButton"> <!-- settings button --> <!-- https://emblemicons.in/icons/settings/ -->
             <img src="../media/cogwheel.svg" style="pointer-events: none; margin-right: 10%;"\>
-            <!-- </div> -->
         </button>
     </div>
     <div class="settingsContainer" style="display: none;">
@@ -28,7 +26,7 @@
         <button class="moreButton ndButton">More Settings</button>
     </div>
 </body>
-<script type="application/javascript" src="./../node_modules/webextension-polyfill/dist/browser-polyfill.min.js"></script>
+<script type="application/javascript" src="/node_modules/webextension-polyfill/dist/browser-polyfill.min.js"></script>
 <script src="popup.js"></script>
 <script src="input.js"></script>
 

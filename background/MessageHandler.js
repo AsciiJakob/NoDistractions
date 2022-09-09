@@ -1,20 +1,21 @@
 import BlockExceptions from "/background/BlockExceptions.js";
+import BlockHandler from "/background/BlockHandler.js";
 import { enabled } from "/background/Background.js";
 export default {
 	async updatedBlocklist() {
-		Background.updateRequestListener();
+		BlockHandler.updateRequestListener();
 		return {};
 	},
     async isEnabled() {
 		return {response: enabled.status};
 	},
     async toggleEnabled() {
-      enabled.setStatus(!enabled.status);
-      return {response: enabled.status};
+		enabled.setStatus(!enabled.status);
+		return {response: enabled.status};
     },
 	async setStatus(request) {
-      enabled.setStatus(request.enabled);
-      return {response: enabled};
+		enabled.setStatus(request.enabled);
+		return {response: enabled};
 	},
 	async addBlockingException(request) {
 		BlockExceptions.createException(request.data.tabId, request.data.allowedLength);
