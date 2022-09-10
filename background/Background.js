@@ -25,7 +25,7 @@ async function initalize() {
 
 async function handleMessage(request, sender, sendResponse) {
   if (MessageHandler[request.type]) {
-    return MessageHandler[request.type]();
+    return MessageHandler[request.type](request);
   } else {
     console.error("Message", request.type, "does not exist.");
   }

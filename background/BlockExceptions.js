@@ -1,3 +1,4 @@
+import { enabled } from "/background/Background.js";
 import createNotification from "/background/Utilities.js";
 class Exception {
 	constructor(tabId, allowedLength) {

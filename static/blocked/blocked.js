@@ -22,13 +22,12 @@ document.querySelector("#visitAnyways").addEventListener("click", async () => {
 	console.log("asking background");
 	browser.runtime.sendMessage({type: "addBlockingException", data: {tabId: (await browser.tabs.getCurrent()).id, allowedLength: allowedLength} }).then(res => {
 		createNotification("visit-anyways-reminder", "You will be allowed to visit blocked sites on this tab for "+settings.visitAnywaysLength+" minutes");
-		console.log("redirecting");
 		document.querySelector("#blockedText").innerText = "Redirecting...";
 		window.location = urlParams.get("url");
 	});
 });
 
-// TODO: can this file require this function from the background utilities script?
+// TODO: can this file require this function from the background utilities script? or maybe just create a message event creating one
 function createNotification(name, alertmessage) {
 	browser.notifications.create(name, {
 		type: "basic",
