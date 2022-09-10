@@ -11,8 +11,9 @@ export function toggle() {
     });
 }
 
+const sitesListContainer = document.getElementById("sitesListContainer");
 export function saveSettings() {
-    const children = document.querySelector(".sitesListContainer").children;
+    const children = sitesListContainer.children;
     let newBlockedSites = [];
     for (const child of children) {
         if (child.firstElementChild.value != "") {
@@ -24,7 +25,6 @@ export function saveSettings() {
 }
 
 export async function loadSettings() {
-    let sitesListContainer = document.querySelector(".sitesListContainer");
     let storage = await browser.storage.local.get("blockedSites_V1");
     sitesListContainer.innerHTML = "";
     for (const site of storage.blockedSites_V1) {
@@ -37,7 +37,7 @@ export async function loadSettings() {
 export function addSiteItem(domain) {
     let siteDiv = document.createElement("div");
     siteDiv.className = "siteContainer";
-    document.querySelector(".sitesListContainer").appendChild(siteDiv);
+    sitesListContainer.appendChild(siteDiv);
     let siteInput = document.createElement("input");
     siteInput.className = "siteInput";
     siteInput.type = "text";
@@ -47,20 +47,21 @@ export function addSiteItem(domain) {
     siteDiv.appendChild(siteInput);
     let sitebutton = document.createElement("button");
     sitebutton.classList.add("siteXButton", "ndButton", "red");
+    sitebutton.id = "siteXButton";
     sitebutton.innerText = "X";
     siteDiv.appendChild(sitebutton);
 }
 
 function updateText(enabled) {
-    let StatusText = document.querySelector("#StatusText");
-    let ToggleButton = document.querySelector(".ToggleButton");
+    let statusText = document.getElementById("statusText");
+    let toggleButton = document.getElementById("toggleButton");
     if (enabled) {
-        StatusText.innerText = "Enabled";
-        StatusText.className = "StatusEnabled";
-        ToggleButton.innerText = "Disable";
+        statusText.innerText = "Enabled";
+        statusText.className = "StatusEnabled";
+        toggleButton.innerText = "Disable";
     } else {
-        StatusText.innerText = "Disabled";
-        StatusText.className = "StatusDisabled";
-        ToggleButton.innerText = "Enable";
+        statusText.innerText = "Disabled";
+        statusText.className = "StatusDisabled";
+        toggleButton.innerText = "Enable";
     }
 }

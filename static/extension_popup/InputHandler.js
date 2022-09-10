@@ -1,47 +1,43 @@
 import {toggle, saveSettings, loadSettings, addSiteItem} from "/static/extension_popup/Popup.js";
+function onClick(elementId, callback) {
+    console.log("adding event to", elementId);
+    document.getElementById(elementId).addEventListener("click", callback);
+}
 export function addListeners() {
-    let sitesListContainer = document.querySelector(".sitesListContainer");
+    let sitesListContainer = document.getElementById("sitesListContainer");
 
-    document.body.addEventListener("click", (mouseEvent) => {
-        let target = mouseEvent.target;
-        switch(target.classList[0]) {
-            case "ToggleButton": {
-                toggle();
-                break;
+    onClick("toggleButton", () => {
+        toggle();
+    });
+    onClick("settingsButton", () => {
+        const settings = document.querySelector(".settingsContainer");
+        if (settings.style.display == "none") {
+            settings.style.display = "block";
+            loadSettings();
+        } else {
+            settings.style.display = "none";
+        }
+    });
+    onClick("addButton", () => {
+        addSiteItem();
+    });
+    onClick("moreButton", () => {
+        browser.runtime.openOptionsPage();
+    });
+    document.body.addEventListener("click", event => { // this is needed since siteXButton is a class on elements that get instantiated.
+        const target = event.target;
+        if (target.classList[0] == "siteXButton") {
+            const children = sitesListContainer.children;
+            if (children[children.length-1] == target.parentElement && target.value == "") {
+                return; // there is always an empty input field at the end to make it easy to add new sites, we don't want to remove that element.
             }
-            case "SettingsButton": {
-                var settings = document.querySelector(".settingsContainer");
-                if (settings.style.display == "none") {
-                    settings.style.display = "block";
-                    loadSettings();
-                } else {
-                    settings.style.display = "none";
-                }
-                break;
-            }
-            case "addButton": {
-                addSiteItem();
-                break;
-            }
-            case "siteXButton": {
-                const children = sitesListContainer.children;
-                if (children[children.length-1] == target.parentElement && target.value == "") {
-                    return;
-                }
-                target.parentElement.remove();
-                saveSettings();
-                break;
-            }
-            case "moreButton": {
-                browser.runtime.openOptionsPage();
-                break;
-            }
+            target.parentElement.remove();
+            saveSettings();
         }
     });
 
-
     // "change" is called once you exit out of an input field and "input" is called whenever the input field recieves any input
-    sitesListContainer.addEventListener("change", (mouseEvent) => { 
+    sitesListContainer.addEventListener("change", () => {
         saveSettings();
     });
     sitesListContainer.addEventListener("input", (mouseEvent) => {
@@ -53,4 +49,5 @@ export function addListeners() {
             }
         }
     });
+
 }

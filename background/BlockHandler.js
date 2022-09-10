@@ -1,21 +1,17 @@
 import BlockExceptions from "/background/BlockExceptions.js";
+import {enabled} from "/background/Background.js";
 export default {
 	handleSite(details) {
-		console.log("hadnling a site, details: ", details);
 		if (!enabled.status) return;
 		for (const exception of BlockExceptions.getExceptions()) {
 			if (details.tabId == exception.tabId) {
 				if (Date.now() > details.deathDate) {
-					console.log("deleting old");
 					BlockExceptions.removeException(exception);
 					break;
 				}
 				return;
 			}
 		}
-		console.log("site was actually blocked.");
-		// browser.tabs.update(details.tabId, {url: `/static/blocked/blocked.html?url=${details.url}`});
-		console.log("trying to redirect to "+browser.runtime.getURL(`/static/blocked/blocked.html?url=${details.url}`));
 		return {
 			redirectUrl: browser.runtime.getURL(`/static/blocked/blocked.html?url=${details.url}`)
 		};

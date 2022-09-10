@@ -4,9 +4,9 @@
 </head>
 <body>
     <div id="mainPopup">
-        <h1 id="StatusTextParent">NoDistractions is currently <span id="StatusText" class="StatusDisabled">loading</span></h1>
-        <button class="ToggleButton ndButton">Enable</button>
-        <button class="SettingsButton ndButton"> <!-- settings button --> <!-- https://emblemicons.in/icons/settings/ -->
+        <h1 id="statusTextParent">NoDistractions is currently <span id="statusText" class="statusDisabled">loading</span></h1>
+        <button id="toggleButton" class="ndButton">Enable</button>
+        <button id="settingsButton" class="ndButton"> <!-- settings button --> <!-- https://emblemicons.in/icons/settings/ -->
             <img src="../media/cogwheel.svg" style="pointer-events: none; margin-right: 10%;"\>
         </button>
     </div>
@@ -19,11 +19,11 @@
                 <br><br>Tip: You can add *. before a site to block all of it's subdomains.
             </p>
         </details>
-        <div class="sitesListContainer"> 
+        <div id="sitesListContainer"> 
             <!-- content is added in popup.js within the loadSettings function. -->
         </div>
-        <button class="addButton ndButton">Add Site</button>
-        <button class="moreButton ndButton">More Settings</button>
+        <button id="addButton" class="ndButton">Add Site</button>
+        <button id="moreButton" class="ndButton">More Settings</button>
     </div>
 </body>
 <script type="application/javascript" src="/node_modules/webextension-polyfill/dist/browser-polyfill.min.js"></script>
@@ -37,7 +37,7 @@
     h1, p, summary, button {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    #StatusTextParent {
+    #statusTextParent {
         color: rgb(31, 31, 31);
         font-size: small;
         /* margin-bottom: 0; */
@@ -45,25 +45,25 @@
         /* font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif */
         /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
     }
-    #StatusHint {
+    #statusHint {
         font-size: small;
         padding: 0;
         margin-top: 1px;
         margin-bottom: 5px;
         /* margin: 0; */
     }
-    .StatusEnabled {
+    .statusEnabled {
         color: rgb(0, 211, 53);
     }
-    .StatusDisabled {
+    .statusDisabled {
         color: rgb(194, 0, 0);
     }
-    .ToggleButton {
+    #toggleButton {
         /* width: 25vw; */
         width: 60px;
         /* height: 10vw; */
     }
-    .SettingsButton {
+    #SettingsButton {
         float: right;
         width: 30px;
         height: 25px;
@@ -86,17 +86,17 @@
     summary {
         font-size: small;
     }
-    .sitesListContainer {
+    #sitesListContainer {
         width: 100%;
         height: 250px;
         overflow-y: scroll;
     }
-    .addButton {
+    #addButton {
         float: right;
         margin-right: 4px;
         margin-bottom: 4px;
     }
-    .moreButton {
+    #moreButton {
         float: right;
         margin-right: 4px;
         margin-bottom: 4px;
