@@ -1,5 +1,6 @@
-import { enabled } from "/background/Background.js";
-import createNotification from "/background/Utilities.js";
+import { enabled } from "./Background.js";
+import BlockHandler from "./BlockHandler.js";
+import Utilities from "./Utilities.js";
 class Exception {
 	constructor(tabId, allowedLength) {
 		this.deathDate = Date.now()+allowedLength;
@@ -15,12 +16,14 @@ export default {
 
 		if (excep.allowedLength > 60000) {
 			setTimeout(() => {
-				if (!enabled) return removeException(request.data);
-				createNotification("visit-anyways-reminder", "You have less than one minute remaining before you get locked out again.");
+				if (!enabled) return removeException(excep);
+				Utilities.createNotification("visit-anyways-reminder", "You have less than one minute remaining before you get locked out again.");
 				setTimeout(() => {
-					// TODO: check if current tab is on a blocked site and if so, block it.
-					browser.tabs.get(request.data.tabId).then(tab => {
-
+					browser.tabs.get(tabId).then(tab => {
+						BlockHandler.testAgainstBlocklist(tab.url).then(block => {
+							const blockedPageUrl = browser.runtime.getURL(`/blocked/blocked.html?url=${tab.url}`);
+							browser.tabs.update(tabId, {url: blockedPageUrl });
+						});
 					});
 				}, 60000);
 			}, excep.allowedLength-60000);

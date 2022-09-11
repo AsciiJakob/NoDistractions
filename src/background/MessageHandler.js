@@ -1,6 +1,6 @@
-import BlockExceptions from "/background/BlockExceptions.js";
-import BlockHandler from "/background/BlockHandler.js";
-import { enabled } from "/background/Background.js";
+import BlockExceptions from ".//BlockExceptions.js";
+import BlockHandler from "./BlockHandler.js";
+import { enabled } from "./Background.js";
 export default {
 	async updatedBlocklist() {
 		BlockHandler.updateRequestListener();

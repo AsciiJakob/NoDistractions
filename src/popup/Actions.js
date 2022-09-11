@@ -1,16 +1,8 @@
-import {addListeners} from "/static/extension_popup/InputHandler.js";
-addListeners();
-browser.runtime.sendMessage({type: "isEnabled"}).then(res => {
-    updateText(res.response);
-});
-
-
 export function toggle() {
     browser.runtime.sendMessage({type: "toggleEnabled"}).then(res => {
         updateText(res.response);
     });
 }
-
 const sitesListContainer = document.getElementById("sitesListContainer");
 export function saveSettings() {
     const children = sitesListContainer.children;
@@ -23,7 +15,6 @@ export function saveSettings() {
     browser.storage.local.set({blockedSites_V1: newBlockedSites});
     browser.runtime.sendMessage({type: "updatedBlocklist"});
 }
-
 export async function loadSettings() {
     let storage = await browser.storage.local.get("blockedSites_V1");
     sitesListContainer.innerHTML = "";
@@ -33,7 +24,6 @@ export async function loadSettings() {
     
     addSiteItem();
 }
-
 export function addSiteItem(domain) {
     let siteDiv = document.createElement("div");
     siteDiv.className = "siteContainer";
@@ -51,8 +41,7 @@ export function addSiteItem(domain) {
     sitebutton.innerText = "X";
     siteDiv.appendChild(sitebutton);
 }
-
-function updateText(enabled) {
+export function updateText(enabled) {
     let statusText = document.getElementById("statusText");
     let toggleButton = document.getElementById("toggleButton");
     if (enabled) {

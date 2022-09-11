@@ -12,15 +12,15 @@
     }
   },
   "icons": {
-    "48": "assets/icon.png"
+    "48": "static/assets/icon.png"
   },
   "browser_action": {
-    "default_icon": "assets/icon.png",
+    "default_icon": "static/assets/icon.png",
     "default_title": "No Distractions",
-    "default_popup": "/static/extension_popup/popup.html"
+    "default_popup": "/popup/popup.html"
   },
   "web_accessible_resources": [
-    "/static/blocked/blocked.html"
+    "/blocked/blocked.html"
   ],
   "permissions": [
     "storage",
@@ -32,7 +32,7 @@
     "webRequestBlocking"
   ],
   "background": {
-    "page": "background/Background.html",
+    "page": "/background/background.html",
     "persistent": true
   },
   "options_ui": {

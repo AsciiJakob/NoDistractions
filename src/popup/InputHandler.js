@@ -1,4 +1,5 @@
-import {toggle, saveSettings, loadSettings, addSiteItem} from "/static/extension_popup/Popup.js";
+import {toggle, saveSettings, loadSettings, addsiteitem} from "./Actions.js";
+addListeners();
 function onClick(elementId, callback) {
     console.log("adding event to", elementId);
     document.getElementById(elementId).addEventListener("click", callback);

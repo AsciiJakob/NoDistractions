@@ -6,5 +6,8 @@ export default {
 			title: "NoDistractions",
 			message: alertmessage
 		});
+	},
+	test() {
+		console.log("hello");
 	}
 };

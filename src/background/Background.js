@@ -1,9 +1,9 @@
-import MessageHandler from "/background/MessageHandler.js";
-import BlockHandler from "/background/BlockHandler.js";
+import MessageHandler from "./MessageHandler.js";
+import BlockHandler from "./BlockHandler.js";
 const defaultBlockedSites = ["twitter.com", "reddit.com", "facebook.com"];
 const defaultSettings = {
 	enableOnStartup: false,
-	visitAnywaysLength: 3
+	visitAnywaysLength: 1
 };
 export let enabled = {
   status: false,
@@ -16,6 +16,7 @@ if (browser.storage.local.get("initialSetup") == true) {
   initalize();
 }
 async function initalize() {
+  console.log("initializing background");
   await BlockHandler.updateRequestListener();
   browser.storage.local.get("settings").then(res => {
     enabled.setStatus(res.settings.enableOnStartup);
