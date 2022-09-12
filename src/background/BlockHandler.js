@@ -5,8 +5,6 @@ import { patternToRegex } from "webext-patterns";
 export default {
 	handleSite(details) {
 		if (!enabled.status) return;
-		console.log("is not disabled");
-		console.log("result of getexceptions:", BlockExceptions.getExceptions());
 		for (const exception of BlockExceptions.getExceptions()) {
 			if (details.tabId == exception.tabId) {
 				if (Date.now() > details.deathDate) {
@@ -41,7 +39,7 @@ export default {
 		return browser.webRequest.onBeforeRequest.addListener(this.handleSite, {urls: await this.getBlocklistURLPatterns(), types: ["main_frame", "sub_frame"]}, ["blocking"]); // TODO: web_manifest type is not available on chrome, but is on firefox
 	},
 	async testAgainstBlocklist(url) { // In some cases we have to test against the blacklist instead of firefox doing it
-		const regexExpression = patternToRegex(this.getBlocklistURLPatterns());
+		const regexExpression = patternToRegex(...await this.getBlocklistURLPatterns());
 		console.log(regexExpression);
 		return regexExpression.test(url);
 

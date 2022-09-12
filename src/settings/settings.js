@@ -44,7 +44,7 @@ async function saveSetting(element) {
 
 		if (element.type == "checkbox") {
 			newSettings[element.id] = element.checked;
-		}  else if (settingElement.type == "number") {
+		}  else if (element.type == "number") {
 			newSettings[element.id] = element.value;
 		}
 

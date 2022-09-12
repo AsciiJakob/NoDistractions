@@ -19,20 +19,8 @@ document.querySelector("#disableND").addEventListener("click", () => {
 document.querySelector("#visitAnyways").addEventListener("click", async () => {
 	const settings = (await browser.storage.local.get("settings")).settings;
 	const allowedLength = settings.visitAnywaysLength*60000;
-	console.log("asking background");
 	browser.runtime.sendMessage({type: "addBlockingException", data: {tabId: (await browser.tabs.getCurrent()).id, allowedLength: allowedLength} }).then(res => {
-		createNotification("visit-anyways-reminder", "You will be allowed to visit blocked sites on this tab for "+settings.visitAnywaysLength+" minutes");
 		document.querySelector("#blockedText").innerText = "Redirecting...";
 		window.location = urlParams.get("url");
 	});
 });
-
-// TODO: can this file require this function from the background utilities script? or maybe just create a message event creating one
-function createNotification(name, alertmessage) {
-	browser.notifications.create(name, {
-		type: "basic",
-		iconUrl: "/assets/icon.png",
-		title: "NoDistractions",
-		message: alertmessage
-	});
-}
