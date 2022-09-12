@@ -11,9 +11,13 @@ export let enabled = {
     this.status = newStatus;
   }
 };
-browser.runtime.onInstalled.addListener(handleInstalled);
+
+
+browser.runtime.onMessage.addListener(handleMessage);
 if (browser.storage.local.get("initialSetup") == true) {
   initalize();
+} else {
+  handleInstalled();
 }
 async function initalize() {
   console.log("initializing background");
@@ -21,7 +25,7 @@ async function initalize() {
   browser.storage.local.get("settings").then(res => {
     enabled.setStatus(res.settings.enableOnStartup);
   });
-  browser.runtime.onMessage.addListener(handleMessage);
+  
 } 
 
 async function handleMessage(request, sender, sendResponse) {
@@ -32,8 +36,7 @@ async function handleMessage(request, sender, sendResponse) {
   }
 }
 
-async function handleInstalled(details) {
-  if (details.reason !== "install") return;
+async function handleInstalled() {
   const blockedSites = await browser.storage.local.get("blockedSites_V1");
   if (Object.keys(blockedSites) == 0) {
       await browser.storage.local.set({blockedSites_V1: defaultBlockedSites});
@@ -44,7 +47,6 @@ async function handleInstalled(details) {
   }
 
   await browser.storage.local.set({initialSetup: true});
-  console.log("OK! calling initialize");
+  console.log("Initial setup complete");
   initalize();
 }
-
