@@ -37,7 +37,6 @@ export function addSiteItem(domain) {
     siteDiv.appendChild(siteInput);
     let sitebutton = document.createElement("button");
     sitebutton.classList.add("siteXButton", "ndButton", "red");
-    sitebutton.id = "siteXButton";
     sitebutton.innerText = "X";
     siteDiv.appendChild(sitebutton);
 }

@@ -1,6 +1,11 @@
 import BlockExceptions from "./BlockExceptions.js";
 import {enabled} from "./Background.js";
-import { patternToRegex } from "webext-patterns";
+import { patternToRegex, patternValidationRegex } from "webext-patterns";
+
+// TODO: allow advanced users to make their own urlpattern by prepending a ! and then a firefox webpattern
+function toPattern(url) {
+	return "*://"+url+"/*";
+}
 
 export default {
 	handleSite(details) {
@@ -25,10 +30,10 @@ export default {
 			console.error("Failed to load the blocklist.");
 		} 
 		for (const siteDomain of loadedBlocklist.blockedSites_V1) {
-			URLPatterns.push("*://"+siteDomain+"/*");
+			URLPatterns.push(toPattern(siteDomain));
 			if (!siteDomain.startsWith("*.") && !siteDomain.startsWith("www.")) { // this is done for user friendliness sakes. I hope it's something sensical to do and doesn't cause any issues.
 				console.log("registering a www block for "+siteDomain);
-				URLPatterns.push("*://www."+siteDomain+"/*");
+				URLPatterns.push(toPattern("www."+siteDomain));
 			}
 		}
 		return URLPatterns;
@@ -42,6 +47,9 @@ export default {
 		const regexExpression = patternToRegex(...await this.getBlocklistURLPatterns());
 		console.log(regexExpression);
 		return regexExpression.test(url);
-
+	},
+	async validateDomainSyntax(domain) {
+		console.log("validated:", toPattern(domain));
+		return patternValidationRegex.test(toPattern(domain));
 	}
 };

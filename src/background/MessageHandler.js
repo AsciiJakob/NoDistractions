@@ -20,5 +20,8 @@ export default {
 	async addBlockingException(request) {
 		BlockExceptions.createException(request.data.tabId, request.data.allowedLength);
 		return {};
+	},
+	async validateDomainSyntax(request) {
+		return BlockHandler.validateDomainSyntax(request.url);
 	}
 };

@@ -1,7 +1,6 @@
-import {toggle, saveSettings, loadSettings, addsiteitem} from "./Actions.js";
+import {toggle, saveSettings, loadSettings, addSiteItem} from "./Actions.js";
 addListeners();
 function onClick(elementId, callback) {
-    console.log("adding event to", elementId);
     document.getElementById(elementId).addEventListener("click", callback);
 }
 export function addListeners() {
@@ -41,14 +40,28 @@ export function addListeners() {
     sitesListContainer.addEventListener("change", () => {
         saveSettings();
     });
-    sitesListContainer.addEventListener("input", (mouseEvent) => {
-        let target = mouseEvent.target;
+    sitesListContainer.addEventListener("input", (event) => {
+        let target = event.target;
         const children = sitesListContainer.children;
-        if (target.value != "") {
-            if (children[children.length-1] == target.parentElement) {
+        target.value = cleanDomain(target.value);
+        if (target.value.length == 0) {
+            if (children[children.length-1] == target.parentElement) { // if we're editing the last field (we are always supposed to have one empty at the end for easy of use)
                 addSiteItem();
             }
+        } else {
+            if (target.value.includes("/") || target.value.split("*.").length > 2 || !target.value.includes(".")) {
+                target.classList.add("invalidDomain");
+                return;
+            }
+
         }
+        target.classList.remove("invalidDomain");
     });
 
+}
+function cleanDomain(domain) {
+    const sScheme = domain.split("://");
+    if (sScheme.length > 1) domain = sScheme[sScheme.length-1];
+
+    return domain;
 }
