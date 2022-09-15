@@ -31,6 +31,7 @@ export function addSiteItem(domain) {
     let siteInput = document.createElement("input");
     siteInput.className = "siteInput";
     siteInput.type = "text";
+    siteInput.placeholder = "Add a site here...";
     if (domain) {
         siteInput.value = domain;
     }

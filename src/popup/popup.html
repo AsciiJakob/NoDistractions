@@ -12,11 +12,12 @@
     </div>
     <div class="settingsContainer" style="display: none;">
         <p id="settingsText">Sites to block:</p>
-        <details>
-            <summary>Click for help</summary>
+        <details id="helpHints">
+            <summary>Click me for help</summary>
             <p id="settingsTextTip">
-                In every input field below, you can input the domain name of a website which you would like to be blocked whilst NoDistractions is enabled.
-                <br><br>Tip: You can add *. before a site to block all of it's subdomains.
+                In every input field below, you can input the domain name of a website which you would like to be blocked whilst NoDistractions is enabled. ex: "wikipedia.org", or "social.distractingsite.co.uk".
+                <br>Changes are saved automatically.
+                <br><br>Tip: You can add *. before a site to block all of it's subdomains. "www" subdomains are blocked automatically.
             </p>
         </details>
         <div id="sitesListContainer"> 
@@ -75,10 +76,21 @@
         margin: 0;
     }
     #settingsTextTip {
+        overflow-y: scroll;
+        height: 15em;
         margin: 0;
         font-size: 0.8em;
     }
+    details[open] > * {
+        background-color: rgb(229, 229, 229);
+        border: 1px solid black
+    }
+    #helpHints {
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+    }
     .settingsContainer {
+        /* border-top: 1px solid black; */
         width: 100%;
         background-color: rgb(247, 247, 247);
         margin-top: 7px;
@@ -112,6 +124,7 @@
     .siteXButton {
         width: 20%;
         color: rgb(194, 0, 0) !important;
+
     }
     .invalidDomain {
         border-color: red;
