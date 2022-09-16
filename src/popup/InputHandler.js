@@ -11,11 +11,14 @@ export function addListeners() {
     });
     onClick("settingsButton", () => {
         const settings = document.querySelector(".settingsContainer");
+        const settingsButton = document.getElementById("settingsButton");
         if (settings.style.display == "none") {
             settings.style.display = "block";
+            settingsButton.innerText = settingsButton.innerText.replace("Show", "Hide");
             loadSettings();
         } else {
             settings.style.display = "none";
+            settingsButton.innerText = settingsButton.innerText.replace("Hide", "Show");
         }
     });
     onClick("addButton", () => {

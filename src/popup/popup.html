@@ -4,21 +4,31 @@
 </head>
 <body>
     <div id="mainPopup">
-        <h1 id="statusTextParent">NoDistractions is currently <span id="statusText" class="statusDisabled">loading</span></h1>
+        <p id="statusTextParent"><strong>NoDistractions is currently <span id="statusText" class="statusDisabled">loading</span></strong></p>
         <button id="toggleButton" class="ndButton">Enable</button>
         <button id="settingsButton" class="ndButton"> <!-- settings button --> <!-- https://emblemicons.in/icons/settings/ -->
-            <img src="/static/media/cogwheel.svg" style="pointer-events: none; margin-right: 10%;"\>
+            <!-- <img src="/static/media/cogwheel.svg" style="pointer-events: none; margin-right: 10%;"\> -->
+            Show blocklist
         </button>
     </div>
     <div class="settingsContainer" style="display: none;">
-        <p id="settingsText">Sites to block:</p>
+        <h2 id="settingsText">Site blocklist:</h2>
         <details id="helpHints">
             <summary>Click me for help</summary>
-            <p id="settingsTextTip">
-                In every input field below, you can input the domain name of a website which you would like to be blocked whilst NoDistractions is enabled. ex: "wikipedia.org", or "social.distractingsite.co.uk".
-                <br>Changes are saved automatically.
-                <br><br>Tip: You can add *. before a site to block all of it's subdomains. "www" subdomains are blocked automatically.
-            </p>
+            <div id="helpContents">
+                <h3>Adding sites</h3>
+                <p>
+                    In every input field below, you can input the domain name of a website which you would like to be blocked whilst NoDistractions is enabled. ex: "wikipedia.org", or "social.distractingsite.co.uk".
+                    <br>Changes are saved automatically.
+                    <br>Tip: You can add *. before a site to block all of it's subdomains. "www" subdomains of entries are blocked automatically.
+                </p>
+                <h3>Advanced Usage</h3>
+                <p>
+                    If you have more advanced needs of blocking you can prefix an entry with "!" and then use a <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns">URL Match Pattern</a>.
+                    <br>ex: "!*://reddit.com/r/kittens/*"<br> or "!*://twitter.com/home".
+                    <br>Please keep in mind that the extension will only ever block webpages, never resource requests etc.
+                </p>
+            </div>
         </details>
         <div id="sitesListContainer"> 
             <!-- content is added in actions.js within the loadSettings function. -->
@@ -35,12 +45,20 @@
         background-color: rgb(247, 247, 247);
         width: 230px;
     }
-    h1, p, summary, button {
+    h1, h2, h3, p, summary, button {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    summary, p{
+        font-size: small;
+    }
+    h2 {
+        font-size: medium;
     }
     #statusTextParent {
         color: rgb(31, 31, 31);
-        font-size: small;
+        font-weight: bold;
+        margin-bottom: 0.67em;
+        margin-top: 0.67em;
         /* margin-bottom: 0; */
         /* font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif */
         /* font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif */
@@ -66,24 +84,28 @@
     }
     #SettingsButton {
         float: right;
-        width: 30px;
-        height: 25px;
-        padding: 0;
         /* border: 0px solid black !important;
         box-shadow: 0px 0px 0px black !important; */
     }
     #settingsText {
+        font-weight: normal;
         margin: 0;
     }
-    #settingsTextTip {
+    details[open] > * {
+        background-color: rgb(229, 229, 229);
+        border: 1px solid black
+    }
+    #helpContents {
         overflow-y: scroll;
         height: 15em;
         margin: 0;
         font-size: 0.8em;
     }
-    details[open] > * {
-        background-color: rgb(229, 229, 229);
-        border: 1px solid black
+    #helpContents > p {
+        margin: 0;
+    }
+    #helpContents > h3 {
+        margin: 0;
     }
     #helpHints {
         margin-top: 0.3em;
@@ -94,9 +116,6 @@
         width: 100%;
         background-color: rgb(247, 247, 247);
         margin-top: 7px;
-    }
-    summary {
-        font-size: small;
     }
     #sitesListContainer {
         width: 100%;
