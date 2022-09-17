@@ -6,16 +6,14 @@ const __dirname = path.resolve();
 const config = {
   entry: {
     background: "/src/background/Background.js",
-    settings: "/src/settings/settings.js",
-    popup: "/src/popup/popup.js",
-    blocked: "/src/blocked/blocked.js"
+    settings: "/src/settings/Settings.js",
+    popup: "/src/popup/Popup.js",
+    blocked: "/src/blocked/Blocked.js"
   },
+  devtool: "source-map",
   output: {
     path: __dirname+"/dist",
     filename: "[name]/[name].js"
-  },
-  optimization: {
-      minimize: false
   },
   plugins: [
     new CopyPlugin({
@@ -35,6 +33,5 @@ const config = {
     })
   ],
 };
-
 
 export default config;

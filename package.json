@@ -9,7 +9,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:firefox": "web-ext run --source-dir ./"
+    "debug": "npx webpack build --mode=development -w",
+    "prebuild:firefox": "npx webpack build --mode=production",
+    "build:firefox": "web-ext build --source-dir ./dist"
   },
   "repository": {
     "type": "git",
