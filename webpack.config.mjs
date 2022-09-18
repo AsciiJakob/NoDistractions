@@ -1,5 +1,6 @@
 import WebExtPlugin from "web-ext-plugin";
 import CopyPlugin from "copy-webpack-plugin";
+import LicenseCheckerWebpackPlugin from"license-checker-webpack-plugin";
 import path from "path";
 const __dirname = path.resolve();
 
@@ -24,12 +25,17 @@ const config = {
         { from: "src/blocked/blocked.html", to: "blocked/blocked.html"},
         { from: "src/blocked/blocked.css", to: "blocked/blocked.css"},
         { from: "src/background/background.html", to: "background/background.html" },
-        { from: "src/settings/settings.html", to: "settings/settings.html" },
+        { from: "src/settings/settings.html", to: "settings/settings.html" }, 
         { from: "node_modules/webextension-polyfill/dist/browser-polyfill.js" }
       ],
     }),
     new WebExtPlugin({
-      sourceDir: __dirname+"/dist"
+      sourceDir: __dirname+"/dist",
+      overwriteDest: true,
+      startUrl: "about:debugging"
+    }),
+    new LicenseCheckerWebpackPlugin({
+      outputFilename: "/license-acknowledgements.txt"
     })
   ],
 };
