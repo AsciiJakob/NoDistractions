@@ -10,6 +10,8 @@ document.querySelector("#resetSettings").addEventListener("click", resetSettings
 document.querySelector("#downloadBlocklist").addEventListener("click", downloadBlocklist);
 document.querySelector("#importClipboardButton").addEventListener("click", importFromClipboard);
 document.querySelector("#selectAll").addEventListener("click", selectAll);
+document.getElementById("NDVersion").innerText = browser.runtime.getManifest().version;
+console.log();
 
 async function loadSettings() {
 	await checkMissingSettings(await getActiveSettings());

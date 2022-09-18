@@ -1,7 +1,8 @@
 {
   "name": "nodistractions",
   "version": "1.0.0",
-  "description": "",
+  "description": "NoDistractions is a bloat-free website blocker with focus on ease of use and simplicity.",
+  "type": "module",
   "dependencies": {
     "html-webpack-plugin": "^5.5.0",
     "webext-patterns": "^1.2.0",
@@ -15,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JakobJakobJakob2/NoDistractions.git"
+    "url": "git+https://github.com/AsciiJakob/NoDistractions.git"
   },
-  "author": "",
+  "author": "Asciijalob",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JakobJakobJakob2/NoDistractions/issues"
+    "url": "https://github.com/AsciiJakob/NoDistractions/issues"
   },
-  "homepage": "https://github.com/JakobJakobJakob2/NoDistractions#readme",
+  "homepage": "https://github.com/Asciijakob/NoDistractions#readme",
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
     "license-checker-webpack-plugin": "^0.2.1",

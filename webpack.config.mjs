@@ -1,8 +1,16 @@
 import WebExtPlugin from "web-ext-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 import LicenseCheckerWebpackPlugin from"license-checker-webpack-plugin";
+import { readFile } from "fs/promises";
+
 import path from "path";
+import { Transform } from "stream";
 const __dirname = path.resolve();
+
+let pckgJson;
+readFile("./package.json").then(data => {
+  pckgJson = JSON.parse(data);
+});
 
 const config = {
   entry: {
@@ -20,7 +28,16 @@ const config = {
     new CopyPlugin({
       patterns: [
         { from: "src/static", to: "static" },
-        { from: "src/manifest.json", to: "manifest.json" },
+        {
+          from: "src/manifest.json",
+          to: "manifest.json",
+          transform(content, absoluteFrom) {
+            content = JSON.parse(content);
+            content.version = pckgJson.version;
+            content.description = pckgJson.description;
+            return JSON.stringify(content, null, 2);
+          }, 
+        },
         { from: "src/popup/popup.html", to: "popup/popup.html" },
         { from: "src/blocked/blocked.html", to: "blocked/blocked.html"},
         { from: "src/blocked/blocked.css", to: "blocked/blocked.css"},
