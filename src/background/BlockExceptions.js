@@ -20,7 +20,7 @@ export default {
 				if (!enabled) return removeException(excep);
 				Utilities.createNotification("visit-anyways-reminder", "You have less than one minute remaining before you get locked out again.");
 				setTimeout(() => {
-					this.endException(tabId);
+					this.onExceptionEnd(tabId);
 				}, 60000);
 			}, excep.allowedLength-60000);
 		} else {
