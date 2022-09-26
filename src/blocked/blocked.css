@@ -32,7 +32,7 @@ h1, p {
 	margin: 0 auto;
 }
 #buttonArea > button{
-	width: 11em;
+	width: 13em;
 	height: 4.5em;
 	/* background-color: #3f565d; */
 	/* background-color: #bf3e3e; */
@@ -41,12 +41,13 @@ h1, p {
 	/* color: #68BEDB; */
 	color: rgb(255, 255, 255);
 	border: 2px solid black;
+	border-radius: 15px;
 	font-size: 1.3em;
 	margin: 1em;
 	/* text-transform: uppercase; */
 }
 #buttonArea > button:hover {
-	background-color: #3e21a3;
+	background-color: #1a0e44;
 	cursor: pointer;
 }
 #image {
