@@ -1,21 +1,22 @@
 const defaultSettings = {
 	enableOnStartup: false,
+	showVisitAnyways: true,
 	visitAnywaysLength: 3
 };
 
-loadSettings();
+loadSettings().then(updateDisabledStates);
 
 document.querySelector("#settingsContainer").addEventListener("click", mouseEvent => saveSetting(mouseEvent.target));
 document.querySelector("#resetSettings").addEventListener("click", resetSettings);
 document.querySelector("#downloadBlocklist").addEventListener("click", downloadBlocklist);
 document.querySelector("#importClipboardButton").addEventListener("click", importFromClipboard);
 document.querySelector("#selectAll").addEventListener("click", selectAll);
+document.getElementById("showVisitAnyways").addEventListener("click", updateDisabledStates);
 document.getElementById("NDVersion").innerText = browser.runtime.getManifest().version;
-console.log();
 
 async function loadSettings() {
 	await checkMissingSettings(await getActiveSettings());
-	activeSettings = await getActiveSettings();
+	const activeSettings = await getActiveSettings();
 	for (const settingElement of document.querySelectorAll(".setting")) {
 		if (settingElement.type == "checkbox") {
 			settingElement.checked = activeSettings[settingElement.id];
@@ -27,7 +28,7 @@ async function loadSettings() {
 
 async function checkMissingSettings(settings) {
 	
-	for (settingKey in defaultSettings) {
+	for (const settingKey in defaultSettings) {
 		if (!settings[settingKey]) {
 			settings[settingKey] = defaultSettings[settingKey];
 		}
@@ -57,7 +58,7 @@ async function saveSetting(element) {
 }
 
 async function resetSettings() {
-	for (settingID in defaultSettings) {
+	for (const settingID in defaultSettings) {
 		console.log("setting:", settingID);
 		let settingElement = document.querySelector("#"+settingID);
 		if (settingElement.type == "checkbox") {
@@ -127,4 +128,7 @@ function displayImportAlert(text, success) {
 		alertText.className = "error";
 		alertText.innerText = text+"\nCorrect usage: \n[\"example.org\", \"testsite.com\"]";
 	}
+}
+function updateDisabledStates() {
+	document.getElementById("visitAnywaysLength").disabled = !document.getElementById("showVisitAnyways").checked;
 }

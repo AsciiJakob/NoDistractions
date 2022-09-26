@@ -25,3 +25,8 @@ document.getElementById("visitAnyways").addEventListener("click", async () => {
 	});
 });
 
+browser.storage.local.get("settings").then(storage => {
+	if (!storage.settings.showVisitAnyways) {
+		document.getElementById("visitAnywaysText").style.display = "none";
+	}
+});

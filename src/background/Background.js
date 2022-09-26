@@ -3,6 +3,7 @@ import BlockHandler from "./BlockHandler.js";
 const defaultBlockedSites = ["twitter.com", "reddit.com", "facebook.com"];
 const defaultSettings = {
 	enableOnStartup: false,
+	showVisitAnyways: true,
 	visitAnywaysLength: 3
 };
 export let enabled = {
