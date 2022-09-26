@@ -47,7 +47,7 @@ h1, p {
 	/* text-transform: uppercase; */
 }
 #buttonArea > button:hover {
-	background-color: #1a0e44;
+	background-color:#0a061969;
 	cursor: pointer;
 }
 #image {
