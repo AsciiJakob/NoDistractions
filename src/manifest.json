@@ -24,7 +24,6 @@
   "permissions": [
     "storage",
     "tabs",
-    "webNavigation",
     "<all_urls>",
     "notifications",
     "webRequest",
