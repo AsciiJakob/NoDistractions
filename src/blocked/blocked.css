@@ -10,7 +10,7 @@ body {
   	background: linear-gradient(to right, #f4c4f3, #fc67fa); */
 	  text-align: center;
 	  /* background: #203a43; */
-	  background: #0E1A1F;
+	  background: #18334A;
 	  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 #header {
@@ -32,12 +32,12 @@ h1, p {
 	margin: 0 auto;
 }
 #buttonArea > button{
-	width: 13em;
+	width: 11em;
 	height: 4.5em;
 	/* background-color: #3f565d; */
 	/* background-color: #bf3e3e; */
 	/* background-color: #3b9fbd;  */
-	background-color: #130c2d69;
+	background-color: #170f3669;
 	/* color: #68BEDB; */
 	color: rgb(255, 255, 255);
 	border: 2px solid black;
@@ -47,7 +47,7 @@ h1, p {
 	/* text-transform: uppercase; */
 }
 #buttonArea > button:hover {
-	background-color:#0a061969;
+	background-color:#100a2669;
 	cursor: pointer;
 }
 #image {
