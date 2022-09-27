@@ -1,7 +1,7 @@
 {
   "name": "nodistractions",
   "version": "1.0.0",
-  "description": "NoDistractions is a bloat-free website blocker with focus on ease of use and simplicity.",
+  "description": "NoDistractions is a bloat-free website blocker with a focus on ease of use and simplicity.",
   "type": "module",
   "dependencies": {
     "webext-patterns": "^1.2.0",
