@@ -47,17 +47,15 @@ export function addListeners() {
         let target = event.target;
         const children = sitesListContainer.children;
         target.value = cleanDomain(target.value);
-        if (target.value.length == 0) {
-            if (children[children.length-1] == target.parentElement) { // if we're editing the last field (we are always supposed to have one empty at the end for easy of use)
-                addSiteItem();
-            }
-        } else {
-            if (target.value.includes("/") || target.value.split("*.").length > 2 || !target.value.includes(".")) {
-                target.classList.add("invalidDomain");
-                return;
-            }
-
+        if (children[children.length-1] == target.parentElement) { // if we're editing the last field (we are always supposed to have one empty at the end for easy of use)
+            console.log("we are editing the last one!!!");
+            addSiteItem();
         }
+        if (target.value.includes("/") || target.value.split("*.").length > 2 || !target.value.includes(".")) {
+            target.classList.add("invalidDomain");
+            return;
+        }
+
         target.classList.remove("invalidDomain");
     });
 
