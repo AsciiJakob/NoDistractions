@@ -46,7 +46,7 @@ export function addListeners() {
     sitesListContainer.addEventListener("input", (event) => {
         let target = event.target;
         const children = sitesListContainer.children;
-        target.value = cleanDomain(target.value);
+        if (!target.value.startsWith("!")) target.value = cleanDomain(target.value);
         if (children[children.length-1] == target.parentElement) { // if we're editing the last field (we are always supposed to have one empty at the end for easy of use)
             console.log("we are editing the last one!!!");
             addSiteItem();

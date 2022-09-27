@@ -4,6 +4,11 @@ import { patternToRegex, patternValidationRegex } from "webext-patterns";
 
 // TODO: allow advanced users to make their own urlpattern by prepending a ! and then a firefox webpattern
 function toPattern(url) {
+	if (url.startsWith("!")) {
+		url = url.split("!");
+		console.log("added very special: "+url[url.length-1]);
+		return url[url.length-1]; // get everything after the last excalamation mark.
+	}
 	return "*://"+url+"/*";
 }
 
@@ -31,7 +36,7 @@ export default {
 		} 
 		for (const siteDomain of loadedBlocklist.blockedSites_V1) {
 			URLPatterns.push(toPattern(siteDomain));
-			if (!siteDomain.startsWith("*.") && !siteDomain.startsWith("www.")) { // this is done for user friendliness sakes. I hope it's something sensical to do and doesn't cause any issues.
+			if (!siteDomain.startsWith("*.") && !siteDomain.startsWith("www.") && !siteDomain.startsWith("!")) { // this is done for user friendliness sakes. I hope it's something sensical to do and doesn't cause any issues.
 				console.log("registering a www block for "+siteDomain);
 				URLPatterns.push(toPattern("www."+siteDomain));
 			}

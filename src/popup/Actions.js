@@ -8,8 +8,9 @@ export function saveSettings() {
     const children = sitesListContainer.children;
     let newBlockedSites = [];
     for (const child of children) {
-        if (child.firstElementChild.value != "") {
-            newBlockedSites.push(child.firstElementChild.value);
+        let domain = child.firstElementChild.value;
+        if (domain != "") {
+            newBlockedSites.push(domain);
         }
     }
     browser.storage.local.set({blockedSites_V1: newBlockedSites});
@@ -46,6 +47,7 @@ export function addSiteItem(domain) {
     siteDiv.appendChild(sitebutton);
 }
 export function isDomainInvalid(domain) {
+    if (domain.startsWith("!")) return false; // domains beginning with ! are advanced domains and do not follow the peasant rules of normal domains.
     return domain.includes("/") || domain.split("*.").length > 2 || !domain.includes(".");
 }
 export function updateText(enabled) {
