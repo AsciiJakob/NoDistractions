@@ -1,4 +1,4 @@
-import {toggle, saveSettings, loadSettings, addSiteItem} from "./Actions.js";
+import {toggle, saveSettings, loadSettings, addSiteItem, isDomainInvalid} from "./Actions.js";
 addListeners();
 function onClick(elementId, callback) {
     document.getElementById(elementId).addEventListener("click", callback);
@@ -51,12 +51,12 @@ export function addListeners() {
             console.log("we are editing the last one!!!");
             addSiteItem();
         }
-        if (target.value.includes("/") || target.value.split("*.").length > 2 || !target.value.includes(".")) {
-            target.classList.add("invalidDomain");
-            return;
-        }
 
-        target.classList.remove("invalidDomain");
+        if (isDomainInvalid(target.value)) {
+            target.classList.add("invalidDomain");
+        } else {
+            target.classList.remove("invalidDomain");
+        }
     });
 
 }

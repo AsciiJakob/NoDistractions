@@ -34,12 +34,19 @@ export function addSiteItem(domain) {
     siteInput.placeholder = "Add a site here...";
     if (domain) {
         siteInput.value = domain;
+
+        if (isDomainInvalid(domain)) {
+            siteInput.classList.add("invalidDomain");
+        }
     }
     siteDiv.appendChild(siteInput);
     let sitebutton = document.createElement("button");
     sitebutton.classList.add("siteXButton", "ndButton", "red");
     sitebutton.innerText = "X";
     siteDiv.appendChild(sitebutton);
+}
+export function isDomainInvalid(domain) {
+    return domain.includes("/") || domain.split("*.").length > 2 || !domain.includes(".");
 }
 export function updateText(enabled) {
     let statusText = document.getElementById("statusText");
