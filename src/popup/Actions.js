@@ -1,6 +1,8 @@
 export function toggle() {
     browser.runtime.sendMessage({type: "toggleEnabled"}).then(res => {
         updateText(res.response);
+        const iconPath = res.response ? "/static/assets/icon-enabled.png" : "/static/assets/icon.png";
+        browser.browserAction.setIcon({path: iconPath});
     });
 }
 const sitesListContainer = document.getElementById("sitesListContainer");

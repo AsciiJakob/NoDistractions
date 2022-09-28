@@ -1,4 +1,4 @@
-import MessageHandler from "./MessageHandler.js"; // TODO: new logo. And maybe different logos depending on if it's enabled or disabled.
+import MessageHandler from "./MessageHandler.js";
 import BlockHandler from "./BlockHandler.js";
 const defaultBlockedSites = ["twitter.com", "reddit.com", "facebook.com"];
 const defaultSettings = {
