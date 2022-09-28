@@ -2,11 +2,9 @@ import BlockExceptions from "./BlockExceptions.js";
 import {enabled} from "./Background.js";
 import { patternToRegex, patternValidationRegex } from "webext-patterns";
 
-// TODO: allow advanced users to make their own urlpattern by prepending a ! and then a firefox webpattern
 function toPattern(url) {
 	if (url.startsWith("!")) {
 		url = url.split("!");
-		console.log("added very special: "+url[url.length-1]);
 		return url[url.length-1]; // get everything after the last excalamation mark.
 	}
 	return "*://"+url+"/*";
