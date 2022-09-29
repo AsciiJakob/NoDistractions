@@ -25,8 +25,7 @@ async function initalize() {
   await BlockHandler.updateRequestListener();
   browser.storage.local.get("settings").then(res => {
     enabled.setStatus(res.settings.enableOnStartup);
-    const iconPath = res.settings.enableOnStartup ? "/static/assets/icon-enabled.png" : "/static/assets/icon.png";
-    browser.browserAction.setIcon({path: iconPath});
+    updateIconState(enabled.status);
   });
   
 } 
@@ -38,6 +37,13 @@ async function handleMessage(request, sender, sendResponse) {
     console.error("Message", request.type, "does not exist.");
   }
 }
+
+browser.commands.onCommand.addListener(name => {
+  if (name == "toggle-enabled") {
+    enabled.setStatus(!enabled.status);
+    updateIconState(enabled.status);
+  }
+});
 
 async function handleInstalled() {
   const blockedSites = await browser.storage.local.get("blockedSites_V1");
@@ -52,4 +58,9 @@ async function handleInstalled() {
   await browser.storage.local.set({initialSetup: true});
   console.log("Initial setup complete");
   initalize();
+}
+
+function updateIconState(enabledState) {
+  const iconPath = enabledState ? "/static/assets/icon-enabled.png" : "/static/assets/icon.png";
+  browser.browserAction.setIcon({path: iconPath});
 }

@@ -21,6 +21,14 @@
   "web_accessible_resources": [
     "/blocked/blocked.html"
   ],
+  "commands": {
+    "toggle-enabled": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+D"
+      },
+      "description": "Toggles the blocking-state on or off"
+    }
+  },
   "permissions": [
     "storage",
     "tabs",
