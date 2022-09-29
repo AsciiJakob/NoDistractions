@@ -25,6 +25,8 @@ async function initalize() {
   await BlockHandler.updateRequestListener();
   browser.storage.local.get("settings").then(res => {
     enabled.setStatus(res.settings.enableOnStartup);
+    const iconPath = res.settings.enableOnStartup ? "/static/assets/icon-enabled.png" : "/static/assets/icon.png";
+    browser.browserAction.setIcon({path: iconPath});
   });
   
 } 
