@@ -1,4 +1,4 @@
-import {toggle, saveSettings, loadSettings, addSiteItem, isDomainInvalid} from "./Actions.js";
+import {toggle, saveSettings, loadSettings, addSiteItem, isDomainInvalid, bottomField} from "./Actions.js";
 addListeners();
 function onClick(elementId, callback) {
     document.getElementById(elementId).addEventListener("click", callback);
@@ -21,8 +21,18 @@ export function addListeners() {
             settingsButton.innerText = settingsButton.innerText.replace("Hide", "Show");
         }
     });
-    onClick("addButton", () => {
-        addSiteItem();
+    onClick("addCurrentButton", () => {
+        browser.tabs.query({currentWindow: true, active: true}).then(tab => {
+            tab = tab[0];
+            let siteField;
+            if (tab.url.startsWith("http")) {
+                const grabUrl = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?]+)/img; // regex magic stolen from https://stackoverflow.com/a/25703406
+                siteField = addSiteItem(grabUrl.exec(tab.url)[1]);
+            } else {
+                siteField = addSiteItem("Failed adding current domain.");
+                siteField.classList.add("invalidDomain");
+            }
+        });
     });
     onClick("moreButton", () => {
         browser.runtime.openOptionsPage();
@@ -30,8 +40,7 @@ export function addListeners() {
     document.body.addEventListener("click", event => { // this is needed since siteXButton is a class on elements that get instantiated.
         const target = event.target;
         if (target.classList[0] == "siteXButton") {
-            const children = sitesListContainer.children;
-            if (children[children.length-1] == target.parentElement && target.value == "") {
+            if (target.parentElement.children[0] === bottomField) {
                 return; // there is always an empty input field at the end to make it easy to add new sites, we don't want to remove that element.
             }
             target.parentElement.remove();
@@ -45,10 +54,8 @@ export function addListeners() {
     });
     sitesListContainer.addEventListener("input", (event) => {
         let target = event.target;
-        const children = sitesListContainer.children;
         if (!target.value.startsWith("!")) target.value = cleanDomain(target.value);
-        if (children[children.length-1] == target.parentElement) { // if we're editing the last field (we are always supposed to have one empty at the end for easy of use)
-            console.log("we are editing the last one!!!");
+        if (target === bottomField) {
             addSiteItem();
         }
 

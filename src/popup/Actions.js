@@ -1,3 +1,5 @@
+export var bottomField; // we are always supposed to have one empty field at the end for easy of use
+
 export function toggle() {
     browser.runtime.sendMessage({type: "toggleEnabled"}).then(res => {
         updateText(res.response);
@@ -22,12 +24,12 @@ export async function loadSettings() {
     let storage = await browser.storage.local.get("blockedSites_V1");
     sitesListContainer.innerHTML = "";
     for (const site of storage.blockedSites_V1) {
-        addSiteItem(site);
+        addSiteItem(site, true);
     }
-    
-    addSiteItem();
+
+    bottomField = addSiteItem();
 }
-export function addSiteItem(domain) {
+export function addSiteItem(domain, initialLoad) {
     let siteDiv = document.createElement("div");
     siteDiv.className = "siteContainer";
     sitesListContainer.appendChild(siteDiv);
@@ -47,6 +49,19 @@ export function addSiteItem(domain) {
     sitebutton.classList.add("siteXButton", "ndButton", "red");
     sitebutton.innerText = "X";
     siteDiv.appendChild(sitebutton);
+
+    if (!initialLoad) {
+        if (bottomField && !bottomField.value) {
+            console.log("removing element");
+            bottomField.parentElement.remove();
+        }
+        if (domain) {
+            addSiteItem(); // we always want to have one empty element at the bottom so it's easy to add a new site.
+        } else {
+            bottomField = siteInput;
+        }
+    }
+    return siteInput;
 }
 export function isDomainInvalid(domain) {
     if (domain.startsWith("!")) return false; // domains beginning with ! are advanced domains and do not follow the peasant rules of normal domains.
