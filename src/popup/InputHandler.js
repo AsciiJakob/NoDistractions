@@ -1,5 +1,6 @@
 import {toggle, saveSettings, loadSettings, addSiteItem, isDomainInvalid, bottomField} from "./Actions.js";
 addListeners();
+loadSettings();
 function onClick(elementId, callback) {
     document.getElementById(elementId).addEventListener("click", callback);
 }
@@ -8,18 +9,6 @@ export function addListeners() {
 
     onClick("toggleButton", () => {
         toggle();
-    });
-    onClick("settingsButton", () => {
-        const settings = document.querySelector(".settingsContainer");
-        const settingsButton = document.getElementById("settingsButton");
-        if (settings.style.display == "none") {
-            settings.style.display = "block";
-            settingsButton.innerText = settingsButton.innerText.replace("Show", "Hide");
-            loadSettings();
-        } else {
-            settings.style.display = "none";
-            settingsButton.innerText = settingsButton.innerText.replace("Hide", "Show");
-        }
     });
     onClick("addCurrentButton", () => {
         browser.tabs.query({currentWindow: true, active: true}).then(tab => {
