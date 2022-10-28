@@ -10,6 +10,7 @@ export let enabled = {
   status: false,
   setStatus(newStatus) {
     this.status = newStatus;
+    updateIconState(this.status);
   }
 };
 
@@ -25,7 +26,6 @@ async function initalize() {
   await BlockHandler.updateRequestListener();
   browser.storage.local.get("settings").then(res => {
     enabled.setStatus(res.settings.enableOnStartup);
-    updateIconState(enabled.status);
   });
   
 } 
@@ -41,7 +41,6 @@ async function handleMessage(request, sender, sendResponse) {
 browser.commands.onCommand.addListener(name => {
   if (name == "toggle-enabled") {
     enabled.setStatus(!enabled.status);
-    updateIconState(enabled.status);
   }
 });
 
