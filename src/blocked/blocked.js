@@ -29,4 +29,6 @@ browser.storage.local.get("settings").then(storage => {
 	if (!storage.settings.showVisitAnyways) {
 		document.getElementById("visitAnywaysText").style.display = "none";
 	}
+
+	document.getElementById("visitAnyways").innerText = "You get "+storage.settings.visitAnywaysLength+" minutes.";
 });
