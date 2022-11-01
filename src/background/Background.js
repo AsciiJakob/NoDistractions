@@ -60,6 +60,6 @@ async function handleInstalled() {
 }
 
 function updateIconState(enabledState) {
-  const iconPath = enabledState ? "/static/assets/icon-enabled.png" : "/static/assets/icon.png";
+  const iconPath = enabledState ? "/static/assets/icon-enabled-low.png" : "/static/assets/icon-low.png";
   browser.browserAction.setIcon({path: iconPath});
 }

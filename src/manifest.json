@@ -1,5 +1,5 @@
 {
-  "description": "This value as well as the version value will be replaced with the values in package.json during building",
+  "description": "This value, as well as the version value, will be replaced with the values in package.json during building",
   "manifest_version": 2,
   "name": "NoDistractions",
   "author": "Asciijakob",
@@ -11,10 +11,11 @@
     }
   },
   "icons": {
-    "48": "static/assets/icon.png"
+    "64": "static/assets/icon-low.png",
+    "128": "static/assets/icon-medium.png"
   },
   "browser_action": {
-    "default_icon": "static/assets/icon.png",
+    "default_icon": "static/assets/icon-low.png",
     "default_title": "No Distractions",
     "default_popup": "/popup/popup.html"
   },

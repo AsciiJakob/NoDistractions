@@ -27,7 +27,7 @@ const config = {
   plugins: [
     new CopyPlugin({
       patterns: [
-        { from: "src/static", to: "static" },
+        { from: "src/static", to: "static" }, // files starting with "." will be ignored as per the default options.
         {
           from: "src/manifest.json",
           to: "manifest.json",
