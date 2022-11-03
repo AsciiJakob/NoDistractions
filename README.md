@@ -1,9 +1,14 @@
-# NoDistractions
-NoDistraction is a website-blocker designed to be simple and easy to use.
-Use if: You just want a simple extension to block distracting websites when enabled, an extension that has an intuitive and convienent UI.
-Don't use if: You require the extension to be toggled during specific times of day, you or you just generally prefer more advanced and powerful features with the trade-off of simplicity.
 
-Features:
+# NoDistractions
+<p align="center">
+  <img width="128" height="128" alt="NoDistractions logo" src="https://github.com/AsciiJakob/NoDistractions/blob/master/src/static/assets/icon-medium.png?raw=true">
+</p>
+NoDistraction is a website-blocker designed to be simple and easy to use.<br>
+<b>Use if:</b> You just want a simple extension to block distracting websites when enabled, an extension that has an intuitive and convienent UI.<br>
+<b>Don't use if:</b> You require the extension to be toggled during specific times of day, you or you just generally prefer more advanced and powerful features with the trade-off of simplicity.
+
+
+## Features:
   * Sites are easy to add and just two simple mouse clicks are required to start adding sites, you don't have to navgiate through confusing menus.
   * Blocking can very quickly be toggled on or off through a popup, a keybinding is also available (CTRL+ALT+D).
   * Advanced site patterns are available for users with more specific needs (See the help section of the popup).
