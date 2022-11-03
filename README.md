@@ -10,6 +10,7 @@ NoDistraction is a website-blocker designed to be simple and easy to use.<br>
 
 ## Features:
   * Sites are easy to add and just two simple mouse clicks are required to start adding sites, you don't have to navgiate through confusing menus.
+  * The ability to temporarily visit a website (for just a minute or two) is available. It's possible to toggle this feature off in the settings, for those with bad impulse control.
   * Blocking can very quickly be toggled on or off through a popup, a keybinding is also available (CTRL+ALT+D).
   * Advanced site patterns are available for users with more specific needs (See the help section of the popup).
   * The extension is open-source, meaning that i am not afraid of hiding the code being the extension and i allow users to contribute to it if they want to implement a feature.
