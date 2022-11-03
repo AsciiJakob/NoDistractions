@@ -17,13 +17,16 @@ export default {
 
 		if (excep.allowedLength > 60000) {
 			setTimeout(() => {
-				if (!enabled) return removeException(excep);
-				// should also check if tab still exists here
-				Utilities.createNotification("visit-anyways-reminder", "You have less than one minute remaining on this tab before you get locked out again.");
-				setTimeout(() => {
-					this.onExceptionEnd(excep);
-				}, 60000);
+				if (!enabled.status) return this.removeException(excep);
+				getTab(tabId).then(tabExists => {
+					if (!tabExists) return this.removeException(excep);
+					Utilities.createNotification("visit-anyways-reminder", "You have less than one minute remaining on this tab before you get locked out again.");
+					setTimeout(() => {
+						this.onExceptionEnd(excep);
+					}, 60000);
+				});
 			}, excep.allowedLength-60000);
+
 		} else {
 			setTimeout(() => {
 				this.onExceptionEnd(excep);
@@ -31,13 +34,14 @@ export default {
 		}
 	},
 	onExceptionEnd(excep) {
-		browser.tabs.get(excep.tabId).then(tab => {
+		this.removeException(excep);
+		getTab(excep.tabId).then(tab => {
+			if (!tab) return;
 			BlockHandler.testAgainstBlocklist(tab.url).then(isMatch => {
 				if (isMatch) {
 					const blockedPageUrl = browser.runtime.getURL(`/blocked/blocked.html?url=${tab.url}`);
 					browser.tabs.update(excep.tabId, {url: blockedPageUrl });
 				}
-				this.removeException(excep);
 			});
 		});
 	},
@@ -51,3 +55,11 @@ export default {
 		return exceptions;
 	}
 };
+
+async function getTab(tabId) {
+	try {
+		return await browser.tabs.get(tabId);
+	} catch (e) {
+		return false;
+	}
+}

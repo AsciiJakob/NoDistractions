@@ -16,7 +16,7 @@
   },
   "browser_action": {
     "default_icon": "static/assets/icon-low.png",
-    "default_title": "No Distractions",
+    "default_title": "NoDistractions",
     "default_popup": "/popup/popup.html"
   },
   "web_accessible_resources": [

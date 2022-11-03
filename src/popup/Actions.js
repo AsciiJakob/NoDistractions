@@ -65,10 +65,10 @@ export function isDomainInvalid(domain) {
     if (domain.startsWith("!")) return false; // domains beginning with ! are advanced domains and do not follow the peasant rules of normal domains.
     return domain.includes("/") || domain.split("*.").length > 2 || !domain.includes(".");
 }
-export function updateText(enabled) {
+export function updateText(isEnabled) {
     let statusText = document.getElementById("statusText");
     let toggleButton = document.getElementById("toggleButton");
-    if (enabled) {
+    if (isEnabled) {
         statusText.innerText = "Enabled";
         statusText.className = "StatusEnabled";
         toggleButton.innerText = "Disable";
