@@ -15,10 +15,6 @@ export default {
 		if (!enabled.status) return;
 		for (const exception of BlockExceptions.getExceptions()) {
 			if (details.tabId == exception.tabId) {
-				if (Date.now() > details.deathDate) {
-					BlockExceptions.removeException(exception);
-					break;
-				}
 				return;
 			}
 		}
