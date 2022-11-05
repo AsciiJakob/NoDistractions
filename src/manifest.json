@@ -4,7 +4,7 @@
   "name": "NoDistractions",
   "author": "Asciijakob",
   "version": "0.0.0",
-  "homepage_url": "https://github.com/TBA",
+  "homepage_url": "https://github.com/AsciiJakob/NoDistractions",
   "browser_specific_settings": {
     "gecko": {
       "id": "NoDistractions@asciijakob.se"
