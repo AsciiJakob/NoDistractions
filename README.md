@@ -14,6 +14,11 @@ NoDistraction is a website-blocker designed to be simple and easy to use.<br>
   * Blocking can very quickly be toggled on or off through a popup, a keybinding is also available (CTRL+ALT+D).
   * Advanced site patterns are available for users with more specific needs (See the help section of the popup).
   * The extension is open-source, meaning that i am not afraid of hiding the code being the extension and i allow users to contribute to it if they want to implement a feature.
+## Screenshot
+<p align="center">
+  <img alt="NoDistractions logo" src="https://i.imgur.com/NSa5kGG.png">
+</p>
+
 # Contributing
 It's designed to be very simple, while staying powerful, so keep that in mind if you are considering contributing.
 If your contribution is very minor, feel free to create a pull request directly. Otherwise, please create an issue first, otherwise you might work in vain in case I don't think the feature fits the scope of the project.
