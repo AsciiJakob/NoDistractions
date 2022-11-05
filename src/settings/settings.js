@@ -51,15 +51,12 @@ async function saveSetting(element) {
 			newSettings[element.id] = element.value;
 		}
 
-		console.log("setting new setting");
-		console.log("new settings are: ", newSettings);
 		browser.storage.local.set({settings: newSettings});
 	}
 }
 
 async function resetSettings() {
 	for (const settingID in defaultSettings) {
-		console.log("setting:", settingID);
 		let settingElement = document.querySelector("#"+settingID);
 		if (settingElement.type == "checkbox") {
 			settingElement.checked = defaultSettings[settingID];
@@ -103,11 +100,9 @@ function importFromClipboard() {
 	try {
 		newBlockedSites = JSON.parse(input);
 	} catch {
-		console.log("not json error");
 		return displayImportAlert("Parsing input failed. Please input an array of sites.");
 	}
 	if (!Array.isArray(newBlockedSites)) {
-		console.log("wrong input type error");
 		return displayImportAlert("Incorrect type of data.");
 	}
 
@@ -118,7 +113,6 @@ function importFromClipboard() {
 }
 
 function displayImportAlert(text, success) {
-	console.log("improted alert func", text, success);
 	const alertText = document.querySelector("#importAlertText");
 	alertText.style.display = "block";
 	if (success) {

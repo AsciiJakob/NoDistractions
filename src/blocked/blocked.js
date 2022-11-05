@@ -5,7 +5,6 @@ document.getElementById("displayURL").innerText = urlParams.get("url");
 document.getElementById("displayURL").href = urlParams.get("url");
 document.getElementById("nevermind").addEventListener("click", () => {
 	browser.tabs.getCurrent().then(tab => {
-		console.log(tab);
 		browser.tabs.remove(tab.id);
 	});
 });
