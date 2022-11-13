@@ -4,17 +4,11 @@
 }
 
 body {
-	/* pink */
-	/* background: #f4c4f3; 
-  	background: -webkit-linear-gradient(to right, #f4c4f3, #fc67fa); 
-  	background: linear-gradient(to right, #f4c4f3, #fc67fa); */
 	  text-align: center;
-	  /* background: #203a43; */
 	  background: #18334A;
 	  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 #header {
-	/* background-color: rgb(62, 77, 105); */
 	height: 100%;
 	width: 100%;
 }
@@ -26,7 +20,6 @@ h1, p {
 }
 #buttonAreaContainer {
 	margin-top: 25%;
-	
 }
 #buttonArea {
 	display: flex;
@@ -36,17 +29,12 @@ h1, p {
 #buttonArea > button{
 	width: 11em;
 	height: 4.5em;
-	/* background-color: #3f565d; */
-	/* background-color: #bf3e3e; */
-	/* background-color: #3b9fbd;  */
 	background-color: #170f3669;
-	/* color: #68BEDB; */
 	color: rgb(255, 255, 255);
 	border: 2px solid black;
 	border-radius: 15px;
 	font-size: 1.3em;
 	margin: 1em;
-	/* text-transform: uppercase; */
 }
 #buttonArea > button:hover {
 	background-color:#100a2669;
