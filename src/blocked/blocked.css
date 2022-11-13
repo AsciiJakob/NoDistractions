@@ -29,7 +29,9 @@ h1, p {
 	
 }
 #buttonArea {
-	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 #buttonArea > button{
 	width: 11em;
