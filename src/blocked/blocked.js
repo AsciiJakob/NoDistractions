@@ -11,7 +11,7 @@ document.getElementById("nevermind").addEventListener("click", () => {
 document.getElementById("disableND").addEventListener("click", () => {
 	browser.runtime.sendMessage({type: "setStatus", enabled: false}).then(res => {
 		browser.tabs.getCurrent().then(tab => {
-			browser.tabs.update(tab.response, { url: urlParams.get("url")}); 
+			redirectToSite();
 		});
 	});
 });
@@ -19,8 +19,7 @@ document.getElementById("visitAnyways").addEventListener("click", async () => {
 	const settings = (await browser.storage.local.get("settings")).settings;
 	const allowedLength = settings.visitAnywaysLength*60000;
 	browser.runtime.sendMessage({type: "addBlockingException", data: {tabId: (await browser.tabs.getCurrent()).id, allowedLength: allowedLength} }).then(res => {
-		document.getElementById("blockedText").innerText = "Redirecting...";
-		window.location = urlParams.get("url");
+		redirectToSite();
 	});
 });
 
@@ -31,3 +30,8 @@ browser.storage.local.get("settings").then(storage => {
 
 	document.getElementById("visitAnyways").innerText = "You get "+storage.settings.visitAnywaysLength+" minutes.";
 });
+
+function redirectToSite() {
+		document.getElementById("blockedText").innerText = "Redirecting...";
+		window.location = urlParams.get("url");
+}
