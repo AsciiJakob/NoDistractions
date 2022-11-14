@@ -6,13 +6,15 @@ const defaultSettings = {
 
 loadSettings().then(updateDisabledStates);
 
-document.querySelector("#settingsContainer").addEventListener("click", mouseEvent => saveSetting(mouseEvent.target));
+// document.getElementById("settingsContainer").addEventListener("click", mouseEvent => saveSetting(mouseEvent.target));
+document.getElementById("settingsContainer").addEventListener("change", mouseEvent => saveSetting(mouseEvent.target));
 document.querySelector("#resetSettings").addEventListener("click", resetSettings);
 document.querySelector("#downloadBlocklist").addEventListener("click", downloadBlocklist);
 document.querySelector("#importClipboardButton").addEventListener("click", importFromClipboard);
 document.querySelector("#selectAll").addEventListener("click", selectAll);
 document.getElementById("showVisitAnyways").addEventListener("click", updateDisabledStates);
 document.getElementById("NDVersion").innerText = browser.runtime.getManifest().version;
+
 
 async function loadSettings() {
 	await checkMissingSettings(await getActiveSettings());
@@ -27,9 +29,9 @@ async function loadSettings() {
 }
 
 async function checkMissingSettings(settings) {
-	
 	for (const settingKey in defaultSettings) {
-		if (!settings[settingKey]) {
+		if (settings[settingKey] == undefined || settings[settingKey] == null) {
+			console.warn("the setting", settingKey, "was unset");
 			settings[settingKey] = defaultSettings[settingKey];
 		}
 	}
@@ -43,22 +45,30 @@ async function getActiveSettings() {
 
 async function saveSetting(element) {
 	if (element.className == "setting") {
-		let newSettings = await getActiveSettings();
-
+		let newValue;
 		if (element.type == "checkbox") {
-			newSettings[element.id] = element.checked;
+			newValue = element.checked;
 		}  else if (element.type == "number") {
-			newSettings[element.id] = element.value;
+			if (element.value < 1) return element.value = 1; // disallow negative numbers and zero 
+			newValue = element.value;
 		}
+		
+		let activeSettings = await getActiveSettings();
+		const isSettingChanged = activeSettings[element.id] != newValue;
+		const newSettings = activeSettings;
+		newSettings[element.id] = newValue;
 
-		showSavedMessage();
-		browser.storage.local.set({settings: newSettings});
+
+		if (isSettingChanged) {
+			showSavedMessage();
+			browser.storage.local.set({settings: newSettings});
+		}
 	}
 }
 
 let textTimer;
 function showSavedMessage() {
-	if (textTimer) clearTimeout(textTimer);
+	if (textTimer) clearTimeout(textTimer); // discard last timeout if one was already in progress to avoid a messy animation
 	const settingsSavedText = document.getElementById("settingsSavedText");
 	settingsSavedText.style.display = "inline-block";
 	textTimer = setTimeout(() => {
@@ -68,13 +78,17 @@ function showSavedMessage() {
 
 async function resetSettings() {
 	for (const settingID in defaultSettings) {
-		let settingElement = document.querySelector("#"+settingID);
+		let settingElement = document.getElementById(settingID);
 		if (settingElement.type == "checkbox") {
 			settingElement.checked = defaultSettings[settingID];
 		}
+		else if (settingElement.type == "number") {
+			settingElement.value = defaultSettings[settingID];
+		}
 		saveSetting(settingElement);
 	}
-	
+
+	updateDisabledStates();
 }
 
 async function downloadBlocklist() {
