@@ -135,6 +135,7 @@ function importFromClipboard() {
 	browser.storage.local.set({blockedSites_V1: newBlockedSites});
 	browser.runtime.sendMessage({type: "updatedBlocklist"});
 	displayImportAlert("Imported list.", true);
+	loadCopyTextarea();
 }
 
 function displayImportAlert(text, success) {
