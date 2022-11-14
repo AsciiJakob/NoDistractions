@@ -51,8 +51,19 @@ async function saveSetting(element) {
 			newSettings[element.id] = element.value;
 		}
 
+		showSavedMessage();
 		browser.storage.local.set({settings: newSettings});
 	}
+}
+
+let textTimer;
+function showSavedMessage() {
+	if (textTimer) clearTimeout(textTimer);
+	const settingsSavedText = document.getElementById("settingsSavedText");
+	settingsSavedText.style.display = "inline-block";
+	textTimer = setTimeout(() => {
+		settingsSavedText.style.display = "none";
+	}, 1000);
 }
 
 async function resetSettings() {
