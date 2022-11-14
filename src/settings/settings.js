@@ -70,7 +70,7 @@ async function downloadBlocklist() {
 	const storage = await browser.storage.local.get("blockedSites_V1");
 	let downloadElement = document.createElement("a");
 	downloadElement.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(JSON.stringify(storage.blockedSites_V1)));
-	downloadElement.setAttribute("download", "ND-SiteBlocklist");
+	downloadElement.setAttribute("download", "ND-SiteBlocklist.txt");
   
 	downloadElement.style.display = "none";
 	document.body.appendChild(downloadElement);
