@@ -25,10 +25,12 @@ document.getElementById("visitAnyways").addEventListener("click", async () => {
 
 browser.storage.local.get("settings").then(storage => {
 	if (!storage.settings.showVisitAnyways) {
-		document.getElementById("visitAnywaysText").style.display = "none";
+		return document.getElementById("visitAnywaysText").style.display = "none";
 	}
 
-	document.getElementById("visitAnyways").innerText = "You get "+storage.settings.visitAnywaysLength+" minutes.";
+	const durationStr = (storage.settings.visitAnywaysLength == 1) ? " minute" : " minutes";
+
+	document.getElementById("visitAnyways").innerText = "You get "+storage.settings.visitAnywaysLength+durationStr;
 });
 
 function redirectToSite() {
