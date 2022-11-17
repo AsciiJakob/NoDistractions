@@ -49,7 +49,7 @@ async function saveSetting(element) {
 		if (element.type == "checkbox") {
 			newValue = element.checked;
 		}  else if (element.type == "number") {
-			if (element.value < 1) return element.value = 1; // disallow negative numbers and zero 
+			if (element.value < 1) element.value = 1; // disallow negative numbers and zero 
 			newValue = element.value;
 		}
 		
