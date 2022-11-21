@@ -39,6 +39,7 @@ const config = {
           }, 
         },
         { from: "src/popup/popup.html", to: "popup/popup.html" },
+        { from: "src/popup/popup.css", to: "popup/popup.css" },
         { from: "src/blocked/blocked.html", to: "blocked/blocked.html"},
         { from: "src/blocked/blocked.css", to: "blocked/blocked.css"},
         { from: "src/background/background.html", to: "background/background.html" },
