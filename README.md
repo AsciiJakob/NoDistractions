@@ -16,7 +16,7 @@ NoDistraction is a website-blocker designed to be simple and easy to use.<br>
   * The extension is open-source, meaning that i am not afraid of hiding the code behind the extension and i allow users to contribute to it if they want to implement a feature.
 ## Screenshot
 <p align="center">
-  <img alt="NoDistractions logo" src="https://i.imgur.com/NSa5kGG.png">
+  <img alt="Screenshot showing the UI" src="https://i.imgur.com/NSa5kGG.png">
 </p>
 
 # Contributing
