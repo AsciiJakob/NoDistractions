@@ -20,7 +20,7 @@ export default {
 				if (!enabled.status) return this.removeException(excep);
 				getTab(tabId).then(tabExists => {
 					if (!tabExists) return this.removeException(excep);
-					Utilities.createNotification("visit-anyways-reminder", "You have less than one minute remaining on this tab before you get locked out again.");
+					Utilities.createNotification("visit-anyways-reminder", "You have less than one minute remaining on this tab before you get locked out of blocked sites again.");
 					setTimeout(() => {
 						this.onExceptionEnd(excep);
 					}, 60000);
