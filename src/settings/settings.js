@@ -1,8 +1,5 @@
-const defaultSettings = {
-	enableOnStartup: false,
-	showVisitAnyways: true,
-	visitAnywaysLength: 3
-};
+import settingsUtilities from "../shared/SettingsUtilities.js";
+const {defaultSettings, getActiveSettings, checkMissingSettings} = settingsUtilities;
 
 loadSettings().then(updateDisabledStates);
 
@@ -28,21 +25,6 @@ async function loadSettings() {
 	}
 }
 
-async function checkMissingSettings(settings) {
-	for (const settingKey in defaultSettings) {
-		if (settings[settingKey] == undefined || settings[settingKey] == null) {
-			console.warn("the setting", settingKey, "was unset");
-			settings[settingKey] = defaultSettings[settingKey];
-		}
-	}
-	browser.storage.local.set({settings: settings});
-	return settings;
-}
-
-async function getActiveSettings() {
-	return (await browser.storage.local.get("settings")).settings;
-}
-
 async function saveSetting(element) {
 	if (element.className == "setting") {
 		let newValue;
@@ -58,10 +40,9 @@ async function saveSetting(element) {
 		const newSettings = activeSettings;
 		newSettings[element.id] = newValue;
 
-
 		if (isSettingChanged) {
 			showSavedMessage();
-			browser.storage.local.set({settings: newSettings});
+			return browser.storage.local.set({settings: newSettings});
 		}
 	}
 }
@@ -85,7 +66,7 @@ async function resetSettings() {
 		else if (settingElement.type == "number") {
 			settingElement.value = defaultSettings[settingID];
 		}
-		saveSetting(settingElement);
+		await saveSetting(settingElement);
 	}
 
 	updateDisabledStates();

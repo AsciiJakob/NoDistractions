@@ -1,11 +1,8 @@
 import MessageHandler from "./MessageHandler.js";
 import BlockHandler from "./BlockHandler.js";
+import settingsUtilities from "../shared/SettingsUtilities.js";
+const {defaultSettings, getActiveSettings, checkMissingSettings} = settingsUtilities;
 const defaultBlockedSites = ["twitter.com", "reddit.com", "facebook.com"];
-const defaultSettings = {
-	enableOnStartup: false,
-	showVisitAnyways: true,
-	visitAnywaysLength: 3
-};
 export let enabled = {
   status: false,
   setStatus(newStatus) {
@@ -16,19 +13,26 @@ export let enabled = {
 
 
 browser.runtime.onMessage.addListener(handleMessage);
-if (browser.storage.local.get("initialSetup") == true) {
+browser.runtime.onInstalled.addListener(async details => {
+  if (details.reason == "install") {
+    console.log("NoDistractions has been installed!");
+    await handleInstalled();
+  }
+  if (details.reason == "update") {
+    console.log("NoDistractions has been updated!");
+  }
+
+  await checkMissingSettings(await getActiveSettings());
   initalize();
-} else {
-  handleInstalled();
-}
+});
 async function initalize() {
-  console.log("initializing background");
+  console.log("initializing background listeners");
   await BlockHandler.updateRequestListener();
   browser.storage.local.get("settings").then(res => {
     enabled.setStatus(res.settings.enableOnStartup);
   });
-  
 } 
+initalize();
 
 async function handleMessage(request, sender, sendResponse) {
   if (MessageHandler[request.type]) {
@@ -54,9 +58,7 @@ async function handleInstalled() {
     await browser.storage.local.set({settings: defaultSettings});
   }
 
-  await browser.storage.local.set({initialSetup: true});
   console.log("Initial setup complete");
-  initalize();
 }
 
 function updateIconState(enabledState) {
