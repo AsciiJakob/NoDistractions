@@ -17,6 +17,7 @@ export function addListeners() {
             if (tab.url.startsWith("http")) {
                 const grabUrl = /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:/\n?]+)/img; // regex magic stolen from https://stackoverflow.com/a/25703406
                 siteField = addSiteItem(grabUrl.exec(tab.url)[1]);
+                saveSettings();
             } else {
                 siteField = addSiteItem("Failed adding current domain.");
                 siteField.classList.add("invalidDomain");
