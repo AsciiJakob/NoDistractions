@@ -50,7 +50,8 @@ const config = {
     new WebExtPlugin({
       sourceDir: __dirname+"/dist",
       overwriteDest: true,
-      startUrl: "about:debugging"
+      startUrl: "about:debugging",
+      browserConsole: true,
     }),
     new LicenseCheckerWebpackPlugin({
       outputFilename: "/license-acknowledgements.txt"
