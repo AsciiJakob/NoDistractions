@@ -27,13 +27,18 @@ export default {
 		let URLPatterns = [];
 		if (Object.keys(loadedBlocklist) == 0) {
 			console.error("Failed to load the blocklist.");
-			// this seems to happen sometimes, at least during development, seems to be some kind of race condition, but this fixes it:
-			setTimeout(async () => {
-				loadedBlocklist = await browser.storage.local.get("blockedSites_V1");
-				if (Object.keys(loadedBlocklist) == 0) {
-					console.error("2nd attempt failed.");
-				} else console.log("2nd attempt succeeded");
-			}, 500);
+			// this seems to happen sometimes when accessing storage happens immediately after launch 
+			await (new Promise(resolve => {
+				setTimeout(async () => {
+					loadedBlocklist = await browser.storage.local.get("blockedSites_V1");
+					if (Object.keys(loadedBlocklist) == 0) {
+						console.error("2nd attempt failed.");
+					} else {
+						console.log("2nd attempt succeeded");
+					}
+					resolve();
+				}, 500);
+			}));
 		} 
 		for (const siteDomain of loadedBlocklist.blockedSites_V1) {
 			URLPatterns.push(toPattern(siteDomain));
