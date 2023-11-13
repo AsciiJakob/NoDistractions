@@ -59,7 +59,7 @@ export default {
 		console.log(regexExpression);
 		return regexExpression.test(url);
 	},
-	async validateDomainSyntax(domain) {
+	async validateDomainSyntax(domain) { // unused
 		console.log("validated:", toPattern(domain));
 		return patternValidationRegex.test(toPattern(domain));
 	}
