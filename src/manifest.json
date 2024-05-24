@@ -40,7 +40,7 @@
     "webRequestBlocking"
   ],
   "background": {
-    "page": "/background/background.html",
+    "page": "/background/Background.html",
     "persistent": true
   },
   "options_ui": {

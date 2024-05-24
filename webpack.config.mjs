@@ -15,9 +15,9 @@ readFile("./package.json").then(data => {
 const config = {
   entry: {
     background: "/src/background/Background.js",
-    settings: "/src/settings/Settings.js",
+    settings: "/src/settings/settings.js",
     popup: "/src/popup/Popup.js",
-    blocked: "/src/blocked/Blocked.js"
+    blocked: "/src/blocked/blocked.js"
   },
   devtool: "source-map",
   output: {
@@ -42,7 +42,7 @@ const config = {
         { from: "src/popup/popup.css", to: "popup/popup.css" },
         { from: "src/blocked/blocked.html", to: "blocked/blocked.html"},
         { from: "src/blocked/blocked.css", to: "blocked/blocked.css"},
-        { from: "src/background/background.html", to: "background/background.html" },
+        { from: "src/background/Background.html", to: "background/Background.html" },
         { from: "src/settings/settings.html", to: "settings/settings.html" }, 
         { from: "node_modules/webextension-polyfill/dist/browser-polyfill.js" }
       ],
