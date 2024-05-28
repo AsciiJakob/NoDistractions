@@ -19,7 +19,7 @@ export default {
 			}
 		}
 		return {
-			redirectUrl: browser.runtime.getURL(`/blocked/blocked.html?url=${details.url}`)
+			redirectUrl: browser.runtime.getURL(`/blocked/Blocked.html?url=${details.url}`)
 		};
 	},
 	async getBlocklistURLPatterns() {
