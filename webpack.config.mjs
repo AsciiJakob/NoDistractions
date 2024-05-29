@@ -14,15 +14,15 @@ readFile("./package.json").then(data => {
 
 const config = {
   entry: {
-    background: "/src/background/Background.js",
-    settings: "/src/settings/Settings.js",
-    popup: "/src/popup/Popup.js",
-    blocked: "/src/blocked/Blocked.js"
+    "background/Background": "/src/background/Background.js",
+    "settings/Settings": "/src/settings/Settings.js",
+    "popup/Popup": "/src/popup/Popup.js",
+    "blocked/Blocked": "/src/blocked/Blocked.js"
   },
   devtool: "source-map",
   output: {
     path: __dirname+"/dist",
-    filename: "[name]/[name].js"
+    filename: "[name].js"
   },
   plugins: [
     new CopyPlugin({
