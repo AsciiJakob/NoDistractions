@@ -1,7 +1,7 @@
 import MessageHandler from "./MessageHandler.js";
 import BlockHandler from "./BlockHandler.js";
-import settingsUtilities from "../shared/SettingsUtilities.js";
-const {defaultSettings, getActiveSettings, checkMissingSettings} = settingsUtilities;
+import SettingsUtilities from "../shared/SettingsUtilities.js";
+const {defaultSettings, getActiveSettings, checkMissingSettings} = SettingsUtilities;
 const defaultBlockedSites = ["twitter.com", "reddit.com", "facebook.com"];
 export let enabled = {
   status: false,
