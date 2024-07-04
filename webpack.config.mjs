@@ -14,15 +14,15 @@ readFile("./package.json").then(data => {
 
 const config = {
   entry: {
-    background: "/src/background/Background.js",
-    settings: "/src/settings/Settings.js",
-    popup: "/src/popup/Popup.js",
-    blocked: "/src/blocked/Blocked.js"
+    "background/Background": "/src/background/Background.js",
+    "settings/Settings": "/src/settings/Settings.js",
+    "popup/Popup": "/src/popup/Popup.js",
+    "blocked/Blocked": "/src/blocked/Blocked.js"
   },
   devtool: "source-map",
   output: {
     path: __dirname+"/dist",
-    filename: "[name]/[name].js"
+    filename: "[name].js"
   },
   plugins: [
     new CopyPlugin({
@@ -38,12 +38,12 @@ const config = {
             return JSON.stringify(content, null, 2);
           }, 
         },
-        { from: "src/popup/popup.html", to: "popup/popup.html" },
-        { from: "src/popup/popup.css", to: "popup/popup.css" },
-        { from: "src/blocked/blocked.html", to: "blocked/blocked.html"},
-        { from: "src/blocked/blocked.css", to: "blocked/blocked.css"},
-        { from: "src/background/background.html", to: "background/background.html" },
-        { from: "src/settings/settings.html", to: "settings/settings.html" }, 
+        { from: "src/popup/Popup.html", to: "popup/Popup.html" },
+        { from: "src/popup/Popup.css", to: "popup/Popup.css" },
+        { from: "src/blocked/Blocked.html", to: "blocked/Blocked.html"},
+        { from: "src/blocked/Blocked.css", to: "blocked/Blocked.css"},
+        { from: "src/background/Background.html", to: "background/Background.html" },
+        { from: "src/settings/Settings.html", to: "settings/Settings.html" }, 
         { from: "node_modules/webextension-polyfill/dist/browser-polyfill.js" }
       ],
     }),

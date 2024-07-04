@@ -1,5 +1,5 @@
-import settingsUtilities from "../shared/SettingsUtilities.js";
-const {defaultSettings, getActiveSettings, checkMissingSettings} = settingsUtilities;
+import SettingsUtilities from "../shared/SettingsUtilities.js";
+const {defaultSettings, getActiveSettings, checkMissingSettings} = SettingsUtilities;
 
 loadSettings().then(updateDisabledStates);
 

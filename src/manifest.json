@@ -17,10 +17,10 @@
   "browser_action": {
     "default_icon": "static/assets/icon-low.png",
     "default_title": "NoDistractions",
-    "default_popup": "/popup/popup.html"
+    "default_popup": "/popup/Popup.html"
   },
   "web_accessible_resources": [
-    "/blocked/blocked.html",
+    "/blocked/Blocked.html",
     "/license-acknowledgements.txt"
   ],
   "commands": {
@@ -40,11 +40,11 @@
     "webRequestBlocking"
   ],
   "background": {
-    "page": "/background/background.html",
+    "page": "/background/Background.html",
     "persistent": true
   },
   "options_ui": {
-    "page": "/settings/settings.html",
+    "page": "/settings/Settings.html",
     "browser_style": true
   }
 }

@@ -39,7 +39,7 @@ export default {
 			if (!tab) return;
 			BlockHandler.testAgainstBlocklist(tab.url).then(isMatch => {
 				if (isMatch) {
-					const blockedPageUrl = browser.runtime.getURL(`/blocked/blocked.html?url=${tab.url}`);
+					const blockedPageUrl = browser.runtime.getURL(`/blocked/Blocked.html?url=${tab.url}`);
 					browser.tabs.update(excep.tabId, {url: blockedPageUrl });
 				}
 			});
