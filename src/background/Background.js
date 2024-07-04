@@ -15,7 +15,7 @@ export let enabled = {
 browser.runtime.onMessage.addListener(handleMessage);
 browser.runtime.onInstalled.addListener(async details => {
   if (details.reason == "install") {
-    console.log("NoDistractions has been installed!!");
+    console.log("NoDistractions has been installed!");
     await handleInstalled();
   }
   if (details.reason == "update") {
