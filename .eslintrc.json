@@ -11,7 +11,7 @@
     },
     "rules": {
         "indent": "off",
-		"no-undef": "off",
+        "no-undef": "off",
         "linebreak-style": [
             "error",
             "unix"
@@ -24,8 +24,8 @@
             "error",
             "always"
         ],
-		"no-unused-vars": [
-			"warn"	
-		]
+        "no-unused-vars": [
+            "warn"	
+        ]
     }
 }

@@ -1,71 +1,71 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta charset="utf-8"/>
-  </head>
+    <head>
+        <meta charset="utf-8"/>
+    </head>
 
-  <body>
-    <h1 id="settingstext">Settings</h1>
-    <div id="settingsContainer">
-      <label>Enable on browser startup <input class="setting" type="checkbox" id="enableOnStartup"/></label>
-      <br>
-      <label>Show the option to disable NoDistractions on the blocked page<input class="setting" type="checkbox" id="showDisableButton"/></label>
-      <br>
-      <label>Show the option to temporarily visit a blocked site on the blocked page<input class="setting" type="checkbox" id="showVisitAnyways"/></label>
-      <br>
-      <label>Allowed duration of temporary visits (in minutes) <input class="setting" type="number" id="visitAnywaysLength"/></label>
+    <body>
+        <h1 id="settingstext">Settings</h1>
+        <div id="settingsContainer">
+            <label>Enable on browser startup <input class="setting" type="checkbox" id="enableOnStartup"/></label>
+            <br>
+            <label>Show the option to disable NoDistractions on the blocked page<input class="setting" type="checkbox" id="showDisableButton"/></label>
+            <br>
+            <label>Show the option to temporarily visit a blocked site on the blocked page<input class="setting" type="checkbox" id="showVisitAnyways"/></label>
+            <br>
+            <label>Allowed duration of temporary visits (in minutes) <input class="setting" type="number" id="visitAnywaysLength"/></label>
 
-      <br><br><button id="resetSettings">Reset to defaults</button> <span id="settingsSavedText">Changes saved!</span>
-    </div>
-    <div>
-      <h1>Import site-blocklist</h1>
-      <h3>Import from clipboard</h3>
-      <span style="display:none;" id="importAlertText"></span>
-      <textarea id="importClipboard" placeholder='Please paste an array of sites. Example: ["twitter.com", "reddit.com"]''></textarea>
-      <br>
-      <button id="importClipboardButton">Import</button>
-    </div>
-    <div>
-      <h1>Export site-blocklist</h1>
-      <h3>Export to file</h3>
-      <button id="downloadBlocklist">Download blocklist</button>
-      <h3>Copy to clipboard</h3>
-      <textarea readonly id="exportClipboard"></textarea>
-      <br>
-      <button id="selectAll">Select all</button>
-    </div>
+            <br><br><button id="resetSettings">Reset to defaults</button> <span id="settingsSavedText">Changes saved!</span>
+        </div>
+        <div>
+            <h1>Import site-blocklist</h1>
+            <h3>Import from clipboard</h3>
+            <span style="display:none;" id="importAlertText"></span>
+            <textarea id="importClipboard" placeholder='Please paste an array of sites. Example: ["twitter.com", "reddit.com"]''></textarea>
+            <br>
+            <button id="importClipboardButton">Import</button>
+        </div>
+        <div>
+            <h1>Export site-blocklist</h1>
+            <h3>Export to file</h3>
+            <button id="downloadBlocklist">Download blocklist</button>
+            <h3>Copy to clipboard</h3>
+            <textarea readonly id="exportClipboard"></textarea>
+            <br>
+            <button id="selectAll">Select all</button>
+        </div>
 
-    <div id="extensionInfo">
-      NoDistractions v:<span id="NDVersion">loading</span> | 
-      <a target="_blank" href="/license-acknowledgements.txt">License Acknowledgements</a> | <a href="https://github.com/AsciiJakob/NoDistractions">Extension source code</a> | <a href="https://github.com/AsciiJakob/NoDistractions/issues">File a bug report</a>
-    </div>
-    <script src="Settings.js"></script>
-  </body>
+        <div id="extensionInfo">
+            NoDistractions v:<span id="NDVersion">loading</span> | 
+            <a target="_blank" href="/license-acknowledgements.txt">License Acknowledgements</a> | <a href="https://github.com/AsciiJakob/NoDistractions">Extension source code</a> | <a href="https://github.com/AsciiJakob/NoDistractions/issues">File a bug report</a>
+        </div>
+        <script src="Settings.js"></script>
+    </body>
 </html>
 
 <style>
-  body {
-    margin: 10px;
-  }
-  .error {
-    color: red;
-  }
-  .success {
-    color: green;
-  }
-  #visitAnywaysLength {
-    width: 7vw;
-  }
-  textarea {
-    width: 75%;
-    height: 6em;
-  }
-  #settingsSavedText {
-    display: none;
-    color: green;
-  }
-  button {
-    padding: 0.2em;
-  }
+    body {
+        margin: 10px;
+    }
+    .error {
+        color: red;
+    }
+    .success {
+        color: green;
+    }
+    #visitAnywaysLength {
+        width: 7vw;
+    }
+    textarea {
+        width: 75%;
+        height: 6em;
+    }
+    #settingsSavedText {
+        display: none;
+        color: green;
+    }
+    button {
+        padding: 0.2em;
+    }
 </style>
