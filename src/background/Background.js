@@ -19,7 +19,7 @@ browser.runtime.onInstalled.addListener(async details => {
     await handleInstalled();
   }
   if (details.reason == "update") {
-    console.log("NoDistractions has been updated!");
+    console.log("NoDistractions has been updated!!");
   }
 
   await checkMissingSettings(await getActiveSettings());
