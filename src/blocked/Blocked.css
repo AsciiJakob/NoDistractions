@@ -1,49 +1,49 @@
 :root {
-	--primary-color: #bbd8e3;
-	--secondary-color: #92adb8;
+    --primary-color: #bbd8e3;
+    --secondary-color: #92adb8;
 }
 
 body {
-	  text-align: center;
-	  background: #18334A;
-	  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    background: #18334A;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 #header {
-	height: 100%;
-	width: 100%;
+    height: 100%;
+    width: 100%;
 }
 #displayURL, span {
-	color: var(--secondary-color);
+    color: var(--secondary-color);
 }
 h1, p {
-	color: var(--primary-color);
+    color: var(--primary-color);
 }
 #buttonAreaContainer {
-	margin-top: 25%;
+    margin-top: 25%;
 }
 #buttonArea {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #buttonArea > button{
-	width: 11em;
-	height: 4.5em;
-	background-color: #170f3669;
-	color: rgb(255, 255, 255);
-	border: 2px solid black;
-	border-radius: 15px;
-	font-size: 1.3em;
-	margin: 1em;
+    width: 11em;
+    height: 4.5em;
+    background-color: #170f3669;
+    color: rgb(255, 255, 255);
+    border: 2px solid black;
+    border-radius: 15px;
+    font-size: 1.3em;
+    margin: 1em;
 }
 #buttonArea > button:hover {
-	background-color:#100a2669;
-	cursor: pointer;
+    background-color:#100a2669;
+    cursor: pointer;
 }
 #image {
-	height: 50vh;
-	width: auto;
+    height: 50vh;
+    width: auto;
 }
 .white {
-	color: white;
+    color: white;
 }
