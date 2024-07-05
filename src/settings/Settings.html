@@ -9,10 +9,25 @@
         <h1 id="settingstext">Settings</h1>
         <div id="settingsContainer">
             <!-- TODO: decide what to do with "enable on browser startup" setting -->
-            <!-- <label>Enable on browser startup <input class="setting" type="checkbox" id="enableOnStartup"/></label> -->
-            <!-- <br> -->
-            <label>Remember last enabled status on browser startup<input class="setting" type="checkbox" id="rememberLastStatus"/></label>
-            <br>
+
+             <h3>Behaviour</h3>
+            <fieldset>
+                <legend>On browser startup NoDistractions should</legend>
+                <div>
+                    <input type="radio" id="rememberLastStatus" name="startupBehaviour">
+                    <label for="rememberLastStatus">Remember last enabled status on browser startup</label>
+                </div>
+                <div>
+                    <input type="radio" id="enableOnStartup" name="startupBehaviour">
+                    <label for="rememberLastStatus">Start Enabled</label>
+                </div>
+                <div>
+                    <input type="radio" id="disableOnStartup" name="startupBehaviour">
+                    <label for="rememberLastStatus">Start Disabled</label>
+                </div>
+            </fieldset>
+
+             <h3>Blocked Page</h3>
             <label>Show the option to disable NoDistractions on the blocked page<input class="setting" type="checkbox" id="showDisableButton"/></label>
             <br>
             <label>Show the option to temporarily visit a blocked site on the blocked page<input class="setting" type="checkbox" id="showVisitAnyways"/></label>
@@ -50,6 +65,7 @@
 <style>
     body {
         margin: 10px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .error {
         color: red;
