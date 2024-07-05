@@ -20,6 +20,7 @@ browser.runtime.onInstalled.addListener(async details => {
     }
     if (details.reason == "update") {
         console.log("NoDistractions has been updated!");
+        // TODO make sure the `enableOnStartup` setting is set in the new format for people who had it before. Make sure to remove old setting afterwards. 
     }
 
     await checkMissingSettings(await getActiveSettings());
@@ -29,21 +30,27 @@ browser.runtime.onInstalled.addListener(async details => {
 async function initalize() {
     console.log("initializing background listeners");
     await BlockHandler.updateRequestListener();
-    // TODO: decide what to do with "enable on browser startup" setting
-    // browser.storage.local.get("settings").then(res => {
-    //     enabled.setStatus(res.settings.enableOnStartup);
-    // });
+
     browser.storage.local.get("settings").then(res => {
-        if (res.settings.rememberLastStatus) {
-            browser.storage.local.get("lastEnabledStatus").then(res => {
-                const status = res.lastEnabledStatus;
-                if (status !== undefined) {
+        const startupBehaviour = res.settings.startupBehaviour;
+        if (!startupBehaviour ) return;
+
+        if (startupBehaviour == "rememberLastStatus") {
+            browser.storage.local.get("lastEnabledStatus").then(res2 => {
+               const status = res2.lastEnabledStatus;
+               if (status != undefined) {
                     enabled.setStatus(status);
-                } else {
-                    // Key is not in storage, add it
-                    enabled.setStatus(false);
-                }
+               } else {
+                // Key is not in storage, add it
+                enabled.setStatus(false);
+               }
             });
+        } else if (startupBehaviour == "enableOnStartup") {
+            enabled.setStatus(true);
+        } else if (startupBehaviour == "disableOnStartup") {
+            enabled.setStatus(false);
+        } else {
+            console.warn("Invalid startup option detected, not good.");
         }
     });
 }
