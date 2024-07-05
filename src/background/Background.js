@@ -8,7 +8,7 @@ export let enabled = {
     setStatus(newStatus) {
         this.status = newStatus;
         updateIconState(this.status);
-        browser.storage.local.set({lastEnabledStatus: this.status})
+        browser.storage.local.set({lastEnabledStatus: this.status});
     }
 };
 
