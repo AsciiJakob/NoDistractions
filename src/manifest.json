@@ -17,7 +17,8 @@
   "browser_action": {
     "default_icon": "static/assets/icon-low.png",
     "default_title": "NoDistractions",
-    "default_popup": "/popup/Popup.html"
+    "default_popup": "/popup/Popup.html",
+    "default_area": "navbar"
   },
   "web_accessible_resources": [
     "/blocked/Blocked.html",
