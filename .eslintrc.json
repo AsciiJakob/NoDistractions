@@ -9,6 +9,7 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
+    "ignorePatterns": ["/dist/*", "/node_modules", "/web-ext-artifacts"],
     "rules": {
         "indent": "off",
         "no-undef": "off",
