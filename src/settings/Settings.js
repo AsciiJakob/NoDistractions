@@ -28,17 +28,21 @@ async function loadSettings() {
 async function saveSetting(element) {
     if (element.className == "setting") {
         let newValue;
+        let settingKey = element.id;
         if (element.type == "checkbox") {
             newValue = element.checked;
         }  else if (element.type == "number") {
             if (element.value < 1) element.value = 1; // disallow negative numbers and zero 
             newValue = element.value;
+        } else if (element.type == "radio") {
+            settingKey = element.parentElement.parentElement.id;
+            newValue = element.id;
         }
 
         let activeSettings = await getActiveSettings();
-        const isSettingChanged = activeSettings[element.id] != newValue;
+        const isSettingChanged = activeSettings[settingKey] != newValue;
         const newSettings = activeSettings;
-        newSettings[element.id] = newValue;
+        newSettings[settingKey] = newValue;
 
         if (isSettingChanged) {
             showSavedMessage();
