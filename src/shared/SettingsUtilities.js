@@ -1,5 +1,7 @@
 const defaultSettings = {
-    enableOnStartup: false,
+    // TODO: decide what to do with "enable on browser startup" setting
+    // enableOnStartup: false,
+    rememberLastStatus: true,
     showDisableButton: true,
     showVisitAnyways: true,
     visitAnywaysLength: 3
