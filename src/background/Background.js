@@ -29,15 +29,21 @@ browser.runtime.onInstalled.addListener(async details => {
 async function initalize() {
     console.log("initializing background listeners");
     await BlockHandler.updateRequestListener();
+    // TODO: decide what to do with "enable on browser startup" setting
     // browser.storage.local.get("settings").then(res => {
     //     enabled.setStatus(res.settings.enableOnStartup);
     // });
-    browser.storage.local.get("lastEnabledStatus").then(res => {
-        const status = res.lastEnabledStatus;
-        if (status !== undefined) {
-            enabled.setStatus(status);
-        } else {
-            enabled.setStatus(false);
+    browser.storage.local.get("settings").then(res => {
+        if (res.settings.rememberLastStatus) {
+            browser.storage.local.get("lastEnabledStatus").then(res => {
+                const status = res.lastEnabledStatus;
+                if (status !== undefined) {
+                    enabled.setStatus(status);
+                } else {
+                    // Key is not in storage, add it
+                    enabled.setStatus(false);
+                }
+            });
         }
     });
 }
