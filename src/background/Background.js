@@ -8,9 +8,9 @@ export let enabled = {
     setStatus(newStatus) {
         this.status = newStatus;
         updateIconState(this.status);
+        browser.storage.local.set({lastEnabledStatus: this.status})
     }
 };
-
 
 browser.runtime.onMessage.addListener(handleMessage);
 browser.runtime.onInstalled.addListener(async details => {
@@ -25,13 +25,22 @@ browser.runtime.onInstalled.addListener(async details => {
     await checkMissingSettings(await getActiveSettings());
     initalize();
 });
+
 async function initalize() {
     console.log("initializing background listeners");
     await BlockHandler.updateRequestListener();
-    browser.storage.local.get("settings").then(res => {
-        enabled.setStatus(res.settings.enableOnStartup);
+    // browser.storage.local.get("settings").then(res => {
+    //     enabled.setStatus(res.settings.enableOnStartup);
+    // });
+    browser.storage.local.get("lastEnabledStatus").then(res => {
+        const status = res.lastEnabledStatus;
+        if (status !== undefined) {
+            enabled.setStatus(status);
+        } else {
+            enabled.setStatus(false);
+        }
     });
-} 
+}
 initalize();
 
 async function handleMessage(request, sender, sendResponse) {
