@@ -31,28 +31,44 @@ async function initalize() {
     console.log("initializing background listeners");
     await BlockHandler.updateRequestListener();
 
-    browser.storage.local.get("settings").then(res => {
-        const startupBehaviour = res.settings.startupBehaviour;
-        if (!startupBehaviour ) return;
+    const res = await browser.storage.local.get("settings");
+    const startupBehaviour = res.settings.startupBehaviour;
+    if (!startupBehaviour ) return;
 
-        if (startupBehaviour == "rememberLastStatus") {
-            browser.storage.local.get("lastEnabledStatus").then(res2 => {
-               const status = res2.lastEnabledStatus;
-               if (status != undefined) {
-                    enabled.setStatus(status);
-               } else {
-                // Key is not in storage, add it
-                enabled.setStatus(false);
-               }
-            });
-        } else if (startupBehaviour == "enableOnStartup") {
-            enabled.setStatus(true);
-        } else if (startupBehaviour == "disableOnStartup") {
-            enabled.setStatus(false);
+    if (startupBehaviour == "rememberLastStatus") {
+        const res2 = await browser.storage.local.get("lastEnabledStatus");
+        const status = res2.lastEnabledStatus;
+        if (status != undefined) {
+            enabled.setStatus(status);
         } else {
-            console.warn("Invalid startup option detected, not good.");
+            // Key is not in storage, add it
+            enabled.setStatus(false);
         }
-    });
+    } else if (startupBehaviour == "enableOnStartup") {
+        enabled.setStatus(true);
+    } else if (startupBehaviour == "disableOnStartup") {
+        enabled.setStatus(false);
+    } else {
+        console.warn("Invalid startup option detected, not good.");
+    }
+    
+
+    // really wish the timeout wasn't necescarry, but for some reason without it, the check gets ran too early and before the webRequest.onBeforeRequest listener works
+    setTimeout(() => {
+        // block active page if in blocklist to handle edge-case where extension takes a sec to start and therefore allows blockedsites to be visited
+        if (enabled.status) {
+            browser.tabs.query({currentWindow: true, active: true}).then(async currentTab=> {
+                currentTab = currentTab[0];
+                if (await BlockHandler.testAgainstBlocklist(currentTab.url)) {
+                    console.log("Extension started with blocked site focused.");
+                    const blockedPageUrl = browser.runtime.getURL(`/blocked/Blocked.html?url=${currentTab.url}`);
+                    browser.tabs.update(currentTab.tabId, {url: blockedPageUrl });
+                } else {
+                    console.log("shouldn't be blocked, url: ", currentTab.url);
+                }
+            });
+        }
+    }, 500);
 }
 initalize();
 
