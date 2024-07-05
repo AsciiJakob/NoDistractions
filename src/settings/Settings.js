@@ -21,6 +21,10 @@ async function loadSettings() {
             settingElement.checked = activeSettings[settingElement.id];
         } else if (settingElement.type == "number") {
             settingElement.value = activeSettings[settingElement.id];
+        } else if (settingElement.type == "radio") {
+            if (settingElement.id == activeSettings[settingElement.parentElement.parentElement.id]) {
+                settingElement.checked = true;
+            }
         }
     }
 }
@@ -69,6 +73,12 @@ async function resetSettings() {
         }
         else if (settingElement.type == "number") {
             settingElement.value = defaultSettings[settingID];
+        } else if (settingElement.type == "fieldset") {
+            settingElement.children.array.forEach(child => {
+                if (child.id == defaultSettings[settingID]) {
+                    child.checked = true;
+                }
+            });
         }
         await saveSetting(settingElement);
     }
