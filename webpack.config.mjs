@@ -58,6 +58,7 @@ const config = {
             overwriteDest: true,
             startUrl: "about:debugging",
             browserConsole: true,
+            devtools: true
         }),
         new LicenseCheckerWebpackPlugin({
             outputFilename: "/license-acknowledgements.txt"
