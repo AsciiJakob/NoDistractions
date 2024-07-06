@@ -1,8 +1,19 @@
 
+
 body {
     background-color: rgb(247, 247, 247);
     min-width: 230px;
     max-width: 340px;
+}
+.invisibleWrapper {
+    width: 100%;
+    height: 0;
+}
+#longestWidthText {
+    margin-bottom: 0.67em;
+    margin-top: 0.67em;
+    opacity: 0;
+    pointer-events: none;
 }
 h1, h2, h3, p, summary, button {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -83,6 +94,7 @@ details[open] > * {
     width: 100%;
     height: 250px;
     overflow-y: scroll;
+    
 }
 #addCurrentButton {
     float: right;
