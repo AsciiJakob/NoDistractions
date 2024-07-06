@@ -53,7 +53,6 @@ export default {
         for (const siteDomain of loadedBlocklist.blockedSites_V1) {
             URLPatterns.push(toPattern(siteDomain));
             if (!siteDomain.startsWith("*.") && !siteDomain.startsWith("www.") && !siteDomain.startsWith("!")) { // this is done for user friendliness sakes. I hope it's something sensical to do and doesn't cause any issues.
-                    console.log("registering a www block for "+siteDomain);
                 URLPatterns.push(toPattern("www."+siteDomain));
             }
         }
