@@ -74,11 +74,14 @@ async function resetSettings() {
         else if (settingElement.type == "number") {
             settingElement.value = defaultSettings[settingID];
         } else if (settingElement.type == "fieldset") {
-            settingElement.children.array.forEach(child => {
-                if (child.id == defaultSettings[settingID]) {
-                    child.checked = true;
+            for (const child of settingElement.children) {
+                if (child.tagName != "DIV") continue;
+                if (child.children[0].id == defaultSettings[settingID]) {
+                    child.children[0].checked = true;
+                    settingElement = child.children[0];
+                    break;
                 }
-            });
+            }
         }
         await saveSetting(settingElement);
     }
