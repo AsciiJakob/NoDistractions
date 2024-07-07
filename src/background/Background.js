@@ -33,6 +33,8 @@ browser.runtime.onInstalled.addListener(async details => {
                     if (cSettings.enableOnStartup) {
                         cSettings.startupBehaviour = "enableOnStartup";
                         console.log("detected deprecated setting enableOnStartup, now converted to the new setting.");
+                    } else {
+                        cSettings.startupBehaviour = "disableOnStartup";
                     }
                     
                     delete cSettings.enableOnStartup;
