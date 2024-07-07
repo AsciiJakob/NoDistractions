@@ -8,12 +8,12 @@
     <body>
         <h1 id="settingstext">Settings</h1>
         <div id="settingsContainer">
-             <h3>Behaviour</h3>
+            <h3>Behaviour</h3>
             <fieldset id="startupBehaviour">
                 <legend>On browser startup NoDistractions should</legend>
                 <div>
                     <input class="setting" type="radio" id="rememberLastStatus" name="startupBehaviour">
-                    <label for="rememberLastStatus">Remember last enabled status on browser startup</label>
+                    <label for="rememberLastStatus">Remember last enabled status
                 </div>
                 <div>
                     <input class="setting" type="radio" id="enableOnStartup" name="startupBehaviour">
@@ -25,7 +25,10 @@
                 </div>
             </fieldset>
 
-             <h3>Blocked Page</h3>
+            <br>
+            <label>Show a desktop notification (Enabled/Disabled) when toggling with key shortcut<input class="setting" type="checkbox" id="notifyOnKeyShortcut"/></label>
+
+            <h3>Blocked Page</h3>
             <label>Show the option to disable NoDistractions on the blocked page<input class="setting" type="checkbox" id="showDisableButton"/></label>
             <br>
             <label>Show the option to temporarily visit a blocked site on the blocked page<input class="setting" type="checkbox" id="showVisitAnyways"/></label>
