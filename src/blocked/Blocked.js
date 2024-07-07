@@ -3,7 +3,7 @@ document.title = "Blocked | "+urlParams.get("url");
 
 document.getElementById("displayURL").innerText = urlParams.get("url");
 document.getElementById("displayURL").href = urlParams.get("url");
-document.getElementById("nevermind").addEventListener("click", () => {
+document.getElementById("closeTab").addEventListener("click", () => {
     browser.tabs.getCurrent().then(tab => {
         browser.tabs.remove(tab.id);
     });
@@ -33,6 +33,10 @@ browser.storage.local.get("settings").then(storage => {
 
     if (!storage.settings.showDisableButton) {
         document.getElementById("disableND").style.display = "none";
+    }
+
+    if (!storage.settings.showCloseTabButton) {
+        document.getElementById("closeTab").style.display = "none";
     }
 });
 

@@ -1,6 +1,7 @@
 const defaultSettings = {
     startupBehaviour: "rememberLastStatus",
     showDisableButton: true,
+    showCloseTabButton: true,
     showVisitAnyways: true,
     visitAnywaysLength: 3
 };
