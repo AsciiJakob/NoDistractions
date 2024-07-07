@@ -17,49 +17,50 @@ browser.runtime.onMessage.addListener(handleMessage);
 browser.runtime.onInstalled.addListener(async details => {
     if (details.reason == "install") {
         console.log("NoDistractions has been installed!");
-        await handleInstalled();
     }
     if (details.reason == "update") {
         const oldVer = details.previousVersion;
         const newVer = browser.runtime.getManifest().version;
         console.log("NoDistractions has been updated from version ", oldVer, " to ", newVer);
-        await checkMissingSettings(await getActiveSettings());
-        
-        // backwards compatibility stuff
-        if (oldVer != newVer) { // the update event is also called when firefox does live-refreshes when debugging, though then oldVer == newVer
-            if (oldVer == "1.1.0") {
-                const cSettings = await getActiveSettings();
-                if (cSettings.enableOnStartup != undefined) {
-                    if (cSettings.enableOnStartup) {
-                        cSettings.startupBehaviour = "enableOnStartup";
-                        console.log("detected deprecated setting enableOnStartup, now converted to the new setting.");
-                    } else {
-                        cSettings.startupBehaviour = "disableOnStartup";
-                    }
-                    
-                    delete cSettings.enableOnStartup;
-                    browser.storage.local.set({settings: cSettings});
-                }
-            }
-        }
     }
-
-    initialize();
 });
 
 initialize();
 
 async function initialize() {
+    let storage = await browser.storage.local.get(null);
+    if (storage.initialSetupComplete == undefined) {
+        await handleInstalled(storage);
+        storage = await browser.storage.local.get(null);
+    }
+
+    // if updated
+    if (storage.version != browser.runtime.getManifest().version) {
+        await checkMissingSettings(storage.settings);
+        
+        console.log("Extension is updated; running backwards compatibility checks");
+        if (storage.settings.enableOnStartup != undefined) {
+            console.log("detected deprecated setting enableOnStartup, converting to the new setting.");
+            if (storage.settings.enableOnStartup) {
+                storage.settings.startupBehaviour = "enableOnStartup";
+            } else {
+                storage.settings.startupBehaviour = "disableOnStartup";
+            }
+            
+            delete storage.settings.enableOnStartup;
+            browser.storage.local.set({settings: storage.settings});
+        }
+
+        await browser.storage.local.set({version: browser.runtime.getManifest().version});
+    }
+
+
     console.log("initializing background listeners");
     await BlockHandler.updateRequestListener();
 
-    const res = await browser.storage.local.get("settings");
-    const startupBehaviour = res.settings.startupBehaviour;
-    if (!startupBehaviour ) return;
-
+    const startupBehaviour = storage.settings.startupBehaviour;
     if (startupBehaviour == "rememberLastStatus") {
-        const res2 = await browser.storage.local.get("lastEnabledStatus");
-        const status = res2.lastEnabledStatus;
+        const status = storage.lastEnabledStatus;
         if (status != undefined) {
             enabled.setStatus(status);
         } else {
@@ -78,8 +79,7 @@ async function initialize() {
     // block focused page if in blocklist and ND is enabled
     if (!enabled.status) return;
     setTimeout(() => {
-        // for some reason it takes a while before webRequest.onBeforeRequest listener starts working, therefore we wait a bit.
-        // otherwise there is a chance the user may navigate to the site after this check gets ran but before the request listener works.
+        // it takes a little bit of time for the normal webrequest listener to be active. If we don't wait a bit, then there is a small period of time where the user can slip through.
         if (!enabled.status) return;
         browser.tabs.query({currentWindow: true, active: true}).then(async currentTab=> {
             currentTab = currentTab[0];
@@ -91,7 +91,7 @@ async function initialize() {
                 console.log("shouldn't be blocked, url: ", currentTab.url);
             }
         });
-    }, 300);
+    }, 100);
 }
 
 async function handleMessage(request, sender, sendResponse) {
@@ -117,18 +117,20 @@ browser.commands.onCommand.addListener(async name => {
     }
 });
 
-async function handleInstalled() {
-    const blockedSites = await browser.storage.local.get("blockedSites_V1");
-    if (Object.keys(blockedSites) == 0) {
+async function handleInstalled(storage) {
+    if (storage.blockedSites == undefined || Object.keys(storage.blockedSites) == 0) {
         await browser.storage.local.set({blockedSites_V1: defaultBlockedSites});
     }
-    const settings = await browser.storage.local.get("settings");
-    if (Object.keys(settings) == 0) {
+    if (storage.settings == undefined || Object.keys(storage.settings) == 0) {
         await browser.storage.local.set({settings: defaultSettings});
     } else {
-        await checkMissingSettings();
+        await checkMissingSettings(storage.settings);
     }
 
+    // if (storage.version == undefined)
+    //     await browser.storage.local.set({version: browser.runtime.getManifest().version});
+
+    await browser.storage.local.set({initialSetupComplete: true});
     console.log("Initial setup complete");
 }
 

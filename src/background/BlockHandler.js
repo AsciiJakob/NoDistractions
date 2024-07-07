@@ -10,20 +10,6 @@ function toPattern(url) {
     return "*://"+url+"/*";
 }
 
-async function retryRetrieval(attemptNumber, wait) {
-    return (new Promise(resolve => {
-        setTimeout(async () => {
-            const loadedBlocklist = await browser.storage.local.get("blockedSites_V1");
-            if (Object.keys(loadedBlocklist) == 0) {
-                console.error("attempt %d failed.", attemptNumber);
-            } else {
-                console.log("attempt %d succeeded.", attemptNumber);
-            }
-            resolve(loadedBlocklist);
-        }, wait);
-    }));
-}
-
 export default {
     handleSite(details) {
         if (!enabled.status) return;
@@ -41,14 +27,6 @@ export default {
         let URLPatterns = [];
         if (Object.keys(loadedBlocklist) == 0) {
             console.error("Failed to load the blocklist:", loadedBlocklist);
-            // this seems to happen sometimes when accessing storage happens immediately after launch. I really hate this and I haven't found a fix. Like, even just waiting one millisecond often does the trick??
-            loadedBlocklist = await retryRetrieval(2, 1);
-             if ( Object.keys(loadedBlocklist) == 0) {
-                loadedBlocklist = await retryRetrieval(3, 50);
-                if ( Object.keys(loadedBlocklist) == 0) {
-                    loadedBlocklist = await retryRetrieval(4, 500);
-                }
-             }
         } 
         for (const siteDomain of loadedBlocklist.blockedSites_V1) {
             URLPatterns.push(toPattern(siteDomain));
