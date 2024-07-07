@@ -13,14 +13,14 @@ export default {
     createException(tabId, allowedLength) {
         const excep = new Exception(tabId, allowedLength);
         exceptions.push(excep);
-        Utilities.createNotification("visit-anyways-reminder", "You will be allowed to visit blocked sites on this tab for "+allowedLength/60000+" minutes");
+        Utilities.createNotification("visit-anyways-reminder", "You will be allowed to visit blocked sites on this tab for "+allowedLength/60000+" minutes", true);
 
         if (excep.allowedLength > 60000) {
             setTimeout(() => {
                 if (!enabled.status) return this.removeException(excep);
                 getTab(tabId).then(tabExists => {
                     if (!tabExists) return this.removeException(excep);
-                    Utilities.createNotification("visit-anyways-reminder", "You have less than one minute remaining on this tab before you get locked out of blocked sites again.");
+                    Utilities.createNotification("visit-anyways-reminder", "You have less than one minute remaining on this tab before you get locked out of blocked sites again.", true);
                     setTimeout(() => {
                         this.onExceptionEnd(excep);
                     }, 60000);
