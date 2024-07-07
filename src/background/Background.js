@@ -19,11 +19,28 @@ browser.runtime.onInstalled.addListener(async details => {
         await handleInstalled();
     }
     if (details.reason == "update") {
-        console.log("NoDistractions has been updated from version ", details.previousVersion, " to ", browser.runtime.getManifest().version);
-        // TODO make sure the `enableOnStartup` setting is set in the new format for people who had it before. Make sure to remove old setting afterwards. 
+        const oldVer = details.previousVersion;
+        const newVer = browser.runtime.getManifest().version;
+        console.log("NoDistractions has been updated from version ", oldVer, " to ", newVer);
+        await checkMissingSettings(await getActiveSettings());
+        
+        // backwards compatibility stuff
+        if (oldVer != newVer) { // the update event is also called when firefox does live-refreshes when debugging, though then oldVer == newVer
+            if (oldVer == "1.1.0") {
+                const cSettings = await getActiveSettings();
+                if (cSettings.enableOnStartup != undefined) {
+                    if (cSettings.enableOnStartup) {
+                        cSettings.startupBehaviour = "enableOnStartup";
+                        console.log("detected deprecated setting enableOnStartup, now converted to the new setting.");
+                    }
+                    
+                    delete cSettings.enableOnStartup;
+                    browser.storage.local.set({settings: cSettings});
+                }
+            }
+        }
     }
 
-    await checkMissingSettings(await getActiveSettings());
     initialize();
 });
 
@@ -96,6 +113,8 @@ async function handleInstalled() {
     const settings = await browser.storage.local.get("settings");
     if (Object.keys(settings) == 0) {
         await browser.storage.local.set({settings: defaultSettings});
+    } else {
+        await checkMissingSettings();
     }
 
     console.log("Initial setup complete");
