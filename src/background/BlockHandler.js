@@ -19,7 +19,6 @@ function tabHasException(tabId, exceptions) {
     return false;
 } 
 
-// todo: message in the help box. fix copy and paste. Button for seeing changelog
 export default {
     handleSite(details) {
         if (!enabled.status) return;
