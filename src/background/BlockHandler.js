@@ -12,7 +12,7 @@ function toPattern(url) {
 
 export default {
     handleSite(details) {
-        if (!enabled.status) return;
+        if (!enabled.status || details.frameId != 0) return;
         for (const exception of BlockExceptions.getExceptions()) {
             if (details.tabId == exception.tabId) {
                 return;
