@@ -1,6 +1,6 @@
 import WebExtPlugin from "web-ext-plugin";
 import CopyPlugin from "copy-webpack-plugin";
-import LicenseCheckerWebpackPlugin from"license-checker-webpack-plugin";
+import {LicenseFilePlugin}  from "generate-license-file-webpack-plugin";
 import { readFile } from "fs/promises";
 
 import path from "path";
@@ -60,10 +60,11 @@ const config = {
             browserConsole: true,
             devtools: true
         }),
-        new LicenseCheckerWebpackPlugin({
-            outputFilename: "/license-acknowledgements.txt"
+        new LicenseFilePlugin({
+            outputFileName: "license-acknowledgements.txt"
         })
     ],
 };
+
 
 export default config;
