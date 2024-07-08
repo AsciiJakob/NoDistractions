@@ -21,7 +21,7 @@ function tabHasException(tabId, exceptions) {
 
 export default {
     handleSite(details) {
-        if (!enabled.status) return;
+        if (!enabled.status || details.frameId != 0) return;
         if (tabHasException(details.tabId, BlockExceptions.getExceptions())) return;
         return {
             redirectUrl: browser.runtime.getURL(`/blocked/Blocked.html?url=${details.url}`)
