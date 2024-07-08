@@ -38,6 +38,7 @@
     "<all_urls>",
     "notifications",
     "webRequest",
+    "webNavigation",
     "webRequestBlocking"
   ],
   "background": {
