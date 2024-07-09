@@ -3,7 +3,7 @@
 <p align="center">
   <img width="128" height="128" alt="NoDistractions logo" src="https://github.com/AsciiJakob/NoDistractions/blob/master/src/static/assets/icon-medium.png?raw=true">
 </p>
-Simple, bloat-free website blocker with a focus on ease of use and intuitiveness. Basic functionality shouldn't be hidden and configuring shouldn't be rocket science.<br><br>
+Simple, bloat-free website blocker with a focus on intuitiveness. Basic functionality shouldn't be hidden and configuring shouldn't be rocket science.<br><br>
 <b>Use if:</b> You just want a simple add-on to block distracting websites when enabled, an extension that has an intuitive and straightforward UI.<br>
 <b>Don't use if:</b> You require very specific features such as blocking only being active at specific times of day. The add-on being active is merely meant to serve as a reminder that you have chosen to be productive.
 
