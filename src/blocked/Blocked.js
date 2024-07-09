@@ -1,3 +1,4 @@
+const {getActiveSettings} = SettingsUtilities;
 var urlParams = new URLSearchParams(window.location.search);
 document.title = "Blocked | "+urlParams.get("url");
 
@@ -16,26 +17,26 @@ document.getElementById("disableND").addEventListener("click", () => {
     });
 });
 document.getElementById("visitAnyways").addEventListener("click", async () => {
-    const settings = (await browser.storage.local.get("settings")).settings;
+    const settings = await getActiveSettings();
     const allowedLength = settings.visitAnywaysLength*60000;
     browser.runtime.sendMessage({type: "addBlockingException", data: {tabId: (await browser.tabs.getCurrent()).id, allowedLength: allowedLength} }).then(res => {
         redirectToSite();
     });
 });
 
-browser.storage.local.get("settings").then(storage => {
-    if (!storage.settings.showVisitAnyways) {
+getActiveSettings().then(settings => {
+    if (!settings.showVisitAnyways) {
         document.getElementById("visitAnywaysText").style.display = "none";
     } else {
-        const durationStr = (storage.settings.visitAnywaysLength == 1) ? " minute" : " minutes";
-        document.getElementById("visitAnyways").innerText = "You get "+storage.settings.visitAnywaysLength+durationStr;
+        const durationStr = (settings.visitAnywaysLength == 1) ? " minute" : " minutes";
+        document.getElementById("visitAnyways").innerText = "You get "+settings.visitAnywaysLength+durationStr;
     }
 
-    if (!storage.settings.showDisableButton) {
+    if (!settings.showDisableButton) {
         document.getElementById("disableND").style.display = "none";
     }
 
-    if (!storage.settings.showCloseTabButton) {
+    if (!settings.showCloseTabButton) {
         document.getElementById("closeTab").style.display = "none";
     }
 });

@@ -14,8 +14,7 @@ document.getElementById("NDVersion").innerText = browser.runtime.getManifest().v
 
 
 async function loadSettings() {
-    await checkMissingSettings(await getActiveSettings());
-    const activeSettings = await getActiveSettings();
+    const activeSettings = await checkMissingSettings(await getActiveSettings());
     for (const settingElement of document.querySelectorAll(".setting")) {
         if (settingElement.type == "checkbox") {
             settingElement.checked = activeSettings[settingElement.id];

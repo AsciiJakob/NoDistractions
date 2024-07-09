@@ -34,9 +34,9 @@ async function initialize() {
         storage = await browser.storage.local.get(null);
     }
 
-    // if updated
+    // if updated (is also true on first installation)
     if (storage.version != browser.runtime.getManifest().version) {
-        await checkMissingSettings(storage.settings);
+        storage.settings = await checkMissingSettings(storage.settings);
         
         console.log("Extension is updated; running backwards compatibility checks");
         if (storage.settings.enableOnStartup != undefined) {
@@ -107,21 +107,21 @@ browser.commands.onCommand.addListener(async name => {
         const newStatus = !enabled.status;
         enabled.setStatus(newStatus);
 
-        await checkMissingSettings(await getActiveSettings());
-        browser.storage.local.get("settings").then(res => {
-            if(res.settings.notifyOnKeyShortcut) {
-                const msg = newStatus ? "Enabled" : "Disabled";
-                Utilities.createNotification("toggle-status-notification", msg, newStatus);
-            }
-        });
+        const settings = await checkMissingSettings(await getActiveSettings());
+        if(settings.notifyOnKeyShortcut) {
+            const msg = newStatus ? "Enabled" : "Disabled";
+            Utilities.createNotification("toggle-status-notification", msg, newStatus);
+        }
     }
 });
 
 async function handleInstalled(storage) {
-    if (storage.blockedSites == undefined || Object.keys(storage.blockedSites) == 0) {
+    if (storage.blockedSites_V1 == undefined || Object.keys(storage.blockedSites_V1) == 0) {
+        console.log("Setting default blocked sites");
         await browser.storage.local.set({blockedSites_V1: defaultBlockedSites});
     }
     if (storage.settings == undefined || Object.keys(storage.settings) == 0) {
+        console.log("Setting default settings");
         await browser.storage.local.set({settings: defaultSettings});
     } else {
         await checkMissingSettings(storage.settings);
@@ -131,7 +131,7 @@ async function handleInstalled(storage) {
     //     await browser.storage.local.set({version: browser.runtime.getManifest().version});
 
     await browser.storage.local.set({initialSetupComplete: true});
-    console.log("Initial setup complete");
+    console.log("Initial setup complete!");
 }
 
 function updateIconState(enabledState) {
