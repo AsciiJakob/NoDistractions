@@ -1,3 +1,4 @@
+import SettingsUtilities from "../shared/SettingsUtilities.js";
 const {getActiveSettings} = SettingsUtilities;
 var urlParams = new URLSearchParams(window.location.search);
 document.title = "Blocked | "+urlParams.get("url");
